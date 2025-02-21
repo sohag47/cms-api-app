@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\StatusEnums;
 use App\Http\Interfaces\RepositoryInterface;
-use App\Http\Resources\BrandCollection;
-use App\Http\Resources\BrandResource;
 use App\Models\Brand;
 use App\Traits\ApiResponse;
 
@@ -28,9 +26,26 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    
+    
+    public function index(Request $request)
     {
-        return $this->respondWithItem($this->model::paginate(10));
+
+        $validator = Validator::make($request->all(), [...$this->validationRules(),  'search'=> ['nullable', 'string', 'max:255']]);
+        if ($validator->fails()) {
+            return $this->respondValidationError($validator->errors());
+        }
+
+        // Query Builder for filtering
+        $query = Brand::query();
+
+        // Apply search filter
+        if ($request->filled('search')) {
+            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+        }
+
+        $brands = $this->filterQuery($request, $query);
+        return $this->respondWithItem($brands);
     }
 
     /**
