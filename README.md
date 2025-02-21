@@ -53,6 +53,8 @@ $ php artisan make:model Test --migration --controller --resource
 $ php artisan migrate:refresh
 # Refresh the database and run all database seeds...
 $ php artisan migrate:refresh --seed
+# Single seed 
+$ php artisan db:seed --class=BrandSeeder 
 ```
 
 ## Important Artisan Command

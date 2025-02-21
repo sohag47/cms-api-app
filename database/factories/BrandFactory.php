@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-
+use App\Enums\CategoryStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +19,8 @@ class BrandFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'logo' => fake()->name(),
+            'logo' => fake()->imageUrl(),
+            'status' => fake()->randomElement(CategoryStatus::cases())->value,
         ];
     }
 }

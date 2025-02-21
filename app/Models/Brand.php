@@ -12,4 +12,13 @@ class Brand extends Model
     use SoftDeletes;
     protected $table = 'brands';
     protected $guarded = [];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'deleted_at',
+    ];
 }
