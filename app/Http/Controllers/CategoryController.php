@@ -8,8 +8,6 @@ use Illuminate\Validation\Rule;
 
 use App\Enums\CategoryStatus;
 use App\Http\Interfaces\RepositoryInterface;
-use App\Http\Resources\CategoryCollection;
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Traits\ApiResponse;
 
@@ -31,24 +29,28 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $rules = [
+        $validator = Validator::make($request->all(), [
+            ...$this->validationRules(),  
+            'search'=> ['nullable', 'string', 'max:255'],
             'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only([
                 CategoryStatus::ACTIVE, CategoryStatus::ARCHIVED, CategoryStatus::INACTIVE, CategoryStatus::DISABLED]
             )],
-        ];
+        ]);
 
-        $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return $this->respondValidationError($validator->errors());
         }
 
-        $categories = [];
-        if ($request->has("status")) {
-            $categories = Category::where("status", $request->query("status"))->paginate(10);
-        }else {
-            $categories = Category::paginate(10);
+        // Query Builder for filtering
+        $query = Category::query();
+
+        // Apply search filter
+        if ($request->filled('search')) {
+            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
         }
-        return $this->respondWithItem(new CategoryCollection($categories));
+
+        $categories = $this->filterQuery($request, $query);
+        return $this->respondWithItem($categories);
     }
 
 
@@ -60,8 +62,6 @@ class CategoryController extends Controller
         $rules = [
             'name' => ['required', 'string', 'max:255', 'unique:categories'],
             'slug' => ['required', 'string', 'max:255', 'unique:categories'],
-            'image' => ['nullable'],
-            'description' => ['nullable', 'string'],
             'parent_id' => ['nullable', 'integer'],
             'order' => ['nullable', 'integer'],
             'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only([
@@ -73,9 +73,12 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             return $this->respondValidationError($validator->errors());
         }
-
-        $category = $this->repositoryInterface->store($request->all(), $this->model);        
-        return $this->respondWithCreated(new CategoryResource($category));
+        $data = $request->all();
+        if (!isset($data['order'])) {
+            $data['order'] = $this->model::max('order') + 1 ?? 1;
+        }
+        $category = $this->repositoryInterface->store($data, $this->model);        
+        return $this->respondWithCreated($category);
     }
 
     /**
@@ -83,7 +86,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return $this->respondWithItem(new CategoryResource($category));
+        return $this->respondWithItem($category);
     }
 
 
@@ -94,9 +97,7 @@ class CategoryController extends Controller
     {
         $rules = [
             'name' => ['required', 'string', 'max:255', Rule::unique('categories', 'name')->ignore($category->id)],
-            'slug' => ['required', 'string', 'max:255', 'unique:categories'],
-            'image' => ['nullable'],
-            'description' => ['nullable', 'string'],
+            'slug' => ['required', 'string', 'max:255', Rule::unique('categories', 'name')->ignore($category->id)],
             'parent_id' => ['nullable', 'integer'],
             'order' => ['nullable', 'integer'],
             'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only([
@@ -108,8 +109,13 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             return $this->respondValidationError($validator->errors());
         }
-        $update_category = $this->repositoryInterface->update($request->all(), $category);
-        return $this->respondWithUpdated(new CategoryResource($update_category));
+
+        $data = $request->all();
+        if (!isset($data['order'])) {
+            $data['order'] = $this->model::max('order') + 1 ?? 1;
+        }
+        $update_category = $this->repositoryInterface->update($data, $category);
+        return $this->respondWithUpdated($update_category);
     }
 
     /**
@@ -119,5 +125,33 @@ class CategoryController extends Controller
     {
         $this->repositoryInterface->delete($category);
         return $this->respondWithDeleted();
+    }
+
+    public function dropdown(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'search'=> ['nullable', 'string', 'max:255'],            
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondValidationError($validator->errors());
+        }
+
+        $query = Category::query();
+
+        if ($request->filled('search')) {
+            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+        }
+
+        $categories = $query->select('id', 'name')
+            ->where('status', CategoryStatus::ACTIVE)
+            ->orderBy('order', 'DESC')
+            ->get()
+            ->map(fn($category) => [
+                'value' => $category->id,
+                'label' => $category->name,
+            ]);
+
+        return $this->respondWithCollection($categories);
     }
 }

@@ -40,6 +40,16 @@ trait ApiResponse
     {
         return $this->respondWithSuccess($data, ApiResponseEnum::ITEM_FOUND);
     }
+        /**
+     * @param $collection
+     * @param $callback
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithCollection($collection = [])
+    {
+        return $this->respondWithSuccess($collection, ApiResponseEnum::ITEM_FOUND);
+    }
+
     protected function respondWithCreated($data = null, $message = ''): JsonResponse
     {
         return $this->respondWithSuccess($data, !empty($message) ? $message : ApiResponseEnum::CREATED, Response::HTTP_CREATED);

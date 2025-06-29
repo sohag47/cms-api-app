@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\CategoryStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,8 +15,14 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->tinyText('status')->default(CategoryStatus::ACTIVE);
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->integer('order')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

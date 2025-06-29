@@ -16,14 +16,13 @@ class Controller extends BaseController
 
     public function validationRules(){
         return [
-            'status' => ['nullable', 'string', 'max:255', Rule::in([
-                StatusEnums::ACTIVE, StatusEnums::DRAFT, StatusEnums::INACTIVE, StatusEnums::DISABLED
-            ])],
-            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'], 
+            'paginate' => ['nullable', 'string',  Rule::in(['yes', 'no'])],
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'page' => ['nullable', 'integer', 'min:1'], 
+            'order_by' => ['nullable', 'string', 'max:255'],
             'order' => ['nullable', 'string', Rule::in(['asc', 'desc'])],
             'start_date' => ['nullable', 'date'],
             'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
-            'paginate' => ['nullable', 'string',  Rule::in(['yes', 'no'])],
         ];
     }
 
