@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductTypes extends Model
+class Country extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table = 'product_types';
+    protected $table = 'countries';
     protected $guarded = [];
 
     /**

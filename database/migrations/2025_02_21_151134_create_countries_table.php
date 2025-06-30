@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('code')->unique();
-            $table->string('iso_code_2')->unique();
-            $table->string('iso_code_3')->unique();
+            $table->string('phone_code')->nullable();
+            $table->string('iso_code_2')->nullable();
+            $table->string('iso_code_3')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

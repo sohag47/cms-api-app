@@ -17,12 +17,8 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->tinyText('status')->default(CategoryStatus::ACTIVE);
-            $table->unsignedBigInteger('parent_id')->nullable();
-            $table->integer('order')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

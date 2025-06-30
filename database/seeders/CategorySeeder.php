@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\StatusEnums;
 use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,6 +14,45 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::factory(10)->create();
+         $data = [
+            [
+                'name' => 'Server',
+                'slug' => 'server',
+                'status' => StatusEnums::ACTIVE,
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Desktop',
+                'slug' => 'desktop',
+                'status' => StatusEnums::ACTIVE,
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Laptop',
+                'slug' => 'laptop',
+                'status' => StatusEnums::ACTIVE,
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Tablet',
+                'slug' => 'tablet',
+                'status' => StatusEnums::ACTIVE,
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Mobile',
+                'slug' => 'mobile',
+                'status' => StatusEnums::ACTIVE,
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Accessories',
+                'slug' => 'accessories',
+                'status' => StatusEnums::ACTIVE,
+                'created_at' => now(),
+            ]
+        ];
+
+        Category::insert($data);
     }
 }
