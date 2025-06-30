@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
 use App\Enums\StatusEnums;
+use App\Http\Controllers\Controller;
 use App\Http\Interfaces\RepositoryInterface;
-use App\Models\Brand;
+use App\Models\Settings\Brand;
 use App\Traits\ApiResponse;
 
 use Illuminate\Http\Request;

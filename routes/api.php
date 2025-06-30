@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Settings\BrandController;
+use App\Http\Controllers\Settings\CategoryController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Settings\CountryController;
+use App\Http\Controllers\Settings\CurrencyController;
+use App\Http\Controllers\Settings\ProductTypeController;
+use App\Http\Controllers\Settings\UnitController;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Post;
@@ -58,7 +62,13 @@ Route::apiResources([
     'products' => ProductController::class,
     'users' => UserController::class,
     'brands' => BrandController::class,
+    'currencies' => CurrencyController::class,
+    'product-types' => ProductTypeController::class,
+    'units' => UnitController::class,
 ]);
+
+Route::apiResource('countries', CountryController::class)->only(['index']);
+
 
 //! Route middleware
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

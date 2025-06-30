@@ -1,10 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Settings\Seeders;
 
 use App\Enums\StatusEnums;
-use App\Models\Category;
-use App\Models\Country;
+use App\Models\Settings\Country;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

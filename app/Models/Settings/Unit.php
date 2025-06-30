@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Settings;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Brand extends Model
+class Unit extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table = 'brands';
+    protected $table = 'units';
     protected $guarded = [];
 
     /**

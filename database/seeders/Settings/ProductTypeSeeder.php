@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Settings\Seeders;
 
 use App\Enums\StatusEnums;
 use App\Models\Brand;
-use App\Models\ProductTypes;
+use App\Models\Settings\ProductType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -37,6 +37,6 @@ class ProductTypeSeeder extends Seeder
             ['name' => 'Accessories', 'created_at' => now()],
             ['name' => 'Others', 'created_at' => now()],
         ];
-        ProductTypes::insert($productTypes);
+        ProductType::insert($productTypes);
     }
 }

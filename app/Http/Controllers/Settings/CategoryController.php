@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 use App\Enums\CategoryStatus;
+use App\Http\Controllers\Controller;
 use App\Http\Interfaces\RepositoryInterface;
-use App\Models\Category;
+use App\Models\Settings\Category;
 use App\Traits\ApiResponse;
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Settings;
 
 use App\Enums\CategoryStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,8 +28,8 @@ class Category extends Model
     }
 
 
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
+    // public function posts()
+    // {
+    //     return $this->hasMany(Post::class);
+    // }
 }

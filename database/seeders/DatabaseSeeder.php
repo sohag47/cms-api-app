@@ -1,7 +1,14 @@
 <?php
 
 namespace Database\Seeders;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+
+use Database\Settings\Seeders\BrandSeeder;
+use Database\Settings\Seeders\CategorySeeder;
+use Database\Settings\Seeders\CountrySeeder;
+use Database\Settings\Seeders\CurrencySeeder;
+use Database\Settings\Seeders\ProductTypeSeeder;
+use Database\Settings\Seeders\UnitSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

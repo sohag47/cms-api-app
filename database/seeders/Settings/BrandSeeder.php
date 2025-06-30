@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Settings\Seeders;
 
 use App\Enums\StatusEnums;
-use App\Models\Brand;
+use App\Models\Settings\Brand;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

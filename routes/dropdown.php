@@ -1,6 +1,10 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Settings\CountryController;
+use App\Http\Controllers\Settings\CategoryController;
+use App\Http\Controllers\Settings\CurrencyController;
+use App\Http\Controllers\Settings\ProductTypeController;
+use App\Http\Controllers\Settings\UnitController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,12 +27,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('dropdown')->group(function () {
-    Route::get('categories', [CategoryController::class, 'dropdown']);
-    // Route::prefix('settings')->group(function () {
-    //     Route::get('libraries', [LibraryController::class, 'dropdown'])->name('libraries.dropdown');
-    //     Route::get('patron-categories', [PatronCategoryController::class, 'dropdown']);
-    //     Route::get('frameworks', [FrameworkController::class, 'dropdown']);
-    //     Route::get('tabs', [TabController::class, 'dropdown']);
-    // });
+    Route::prefix('settings')->group(function () {
+        Route::get('categories', [CategoryController::class, 'dropdown']);
+        Route::get('countries', [CountryController::class, 'dropdown']);
+        Route::get('currencies', [CurrencyController::class, 'dropdown']);
+        Route::get('product-types', [ProductTypeController::class, 'dropdown']);
+        Route::get('units', [UnitController::class, 'dropdown']);
+        // Route::get('libraries', [LibraryController::class, 'dropdown'])->name('libraries.dropdown');
+        // Route::get('patron-categories', [PatronCategoryController::class, 'dropdown']);
+        // Route::get('frameworks', [FrameworkController::class, 'dropdown']);
+        // Route::get('tabs', [TabController::class, 'dropdown']);
+    });
     // Route::get('patrons', [PatronController::class, 'dropdown']);
 });
