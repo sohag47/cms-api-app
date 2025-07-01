@@ -98,20 +98,14 @@ php artisan make:resource UserCollection
 
 # 🧠 Artisan Cache Command 
 ## 🧹 Clear Cache
-Clear application cache
 ```bash
+# Clear application cache
 php artisan cache:clear
-```
-Clear config cache
-```bash
+# Clear config cache
 php artisan config:clear
-```
-Clear route cache
-```bash
+# Clear route cache
 php artisan route:clear
-```
-Clear compiled view files
-```bash
+# Clear compiled view files
 php artisan view:clear
 ```
 Clear all caches (application, route, config, view)
@@ -120,18 +114,15 @@ php artisan optimize:clear
 ```
 
 ## 🗃️ Create Cache
-Cache the configuration files
 ```bash
+# Cache the configuration files
 php artisan config:cache
-```
-Cache the routes
-```bash
+# Cache the routes
 php artisan route:cache
-```
-Cache the views
-```bash
+# Cache the views
 php artisan view:cache
 ```
+
 List all registered routes
 ```bash
 php artisan route:list
