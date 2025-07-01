@@ -45,9 +45,9 @@ php artisan serve
 php artisan serve --host=0.0.0.0 --port=8080 
 ```
 
-# 🛠️ Database Actions
+# 💾 Database Actions
 
-🧱 Create Model, Migration, Controller file
+📝 Create Model, Migration, Controller file
 ```bash
 php artisan make:model Test --migration --controller --resource 
 ```
@@ -75,7 +75,7 @@ php artisan db:seed
 ```bash
 php artisan migrate:rollback
 ```
-08. Create a migration file
+📝 Create a migration file
 ```bash
 php artisan make:migration create_table_name
 ```
