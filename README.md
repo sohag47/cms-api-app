@@ -46,26 +46,40 @@ php artisan serve --host=0.0.0.0 --port=8080
 ```
 
 ## Database Actions
+
+01. Create Model, Migration, Controller file
 ```bash
-# Create Model,Migration,Controller file
-$ php artisan make:model Test --migration --controller --resource 
-# Change and affect Database
-$ php artisan migrate:refresh
-# Refresh the database and run all database seeds...
-$ php artisan migrate:refresh --seed
-# Single seed 
-$ php artisan db:seed --class=BrandSeeder 
+php artisan make:model Test --migration --controller --resource 
+```
+02. Create Seeder file
+```bash
+php artisan make:seeder ProductSeeder 
+```
+03. Create Factory file
+```bash
+php artisan make:factory ProductFactory 
+```
+04. Change and affect Database
+```bash
+php artisan migrate:refresh --seed 
+```
+05. Single seed
+```bash
+php artisan db:seed --class=BrandSeeder
 ```
 
 ## Important Artisan Command
+01. create resource api route
 ```bash
-# create resource api route
-$ php artisan make:controller UserController --api
-# API Resources for Fetching a Single Item and Multiple items
-$ php artisan make:resource UserResource
-# API Collection for Fetching Custom Collection-Level and Multiple items
+php artisan make:controller UserController --api
+```
+02. API Resources for Fetching a Single Item and Multiple items
+```bash
+php artisan make:resource UserResource
+```
+03. API Collection for Fetching Custom Collection-Level and Multiple items
+```bash
 php artisan make:resource UserCollection
-
 ```
 
 ## Run Application With Docker
