@@ -8,9 +8,9 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+<!-- ## About Laravel -->
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<!-- Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
 - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
@@ -20,58 +20,58 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Laravel is accessible, powerful, and provides tools required for large, robust applications. -->
 
-## 🚀 Setup Application
+# 🚀 Setup Application
 
 📦 Setup dependence
 ```bash
 composer install
 ```
-2.Create .env file and Change DB Credentials
+⚙️ Create .env file and Change DB Credentials
 ```bash
 cp .env.example .env
 ```
-3.Generate APP Key 
+🔐 Generate APP Key 
 ```bash
 php artisan key:generate
 ```
-4.Start Application 
+💻 Start Application 
 ```bash
 php artisan serve
 ```
-5.Start Application with custom IP address and port 
+🌐 Start Application with custom IP address and port 
 ```bash
 php artisan serve --host=0.0.0.0 --port=8080 
 ```
 
-## Database Actions
+# 🛠️ Database Actions
 
-01. Create Model, Migration, Controller file
+🧱 Create Model, Migration, Controller file
 ```bash
 php artisan make:model Test --migration --controller --resource 
 ```
-02. Create Seeder file
+🌱 Create Seeder file
 ```bash
 php artisan make:seeder ProductSeeder 
 ```
-03. Create Factory file
+🏭 Create Factory file
 ```bash
 php artisan make:factory ProductFactory 
 ```
-04. Change and affect Database
+📌 Change and affect Database
 ```bash
 php artisan migrate:refresh --seed 
 ```
-05. Single seed
+✅ Single seed
 ```bash
 php artisan db:seed --class=BrandSeeder
 ```
-06. Run all seeders
+⏪ Run all seeders
 ```bash
 php artisan db:seed
 ```
-07. Rollback the last database migration
+📂 Rollback the last database migration
 ```bash
 php artisan migrate:rollback
 ```
@@ -81,67 +81,63 @@ php artisan make:migration create_table_name
 ```
 
 
-## Important Artisan Command
-01. create resource api route
+# 📦 Important Artisan Command
+🧩 create resource api route
 ```bash
 php artisan make:controller UserController --api
 ```
-02. API Resources for Fetching a Single Item and Multiple items
+🧾 API Resources for Fetching a Single Item and Multiple items
 ```bash
 php artisan make:resource UserResource
 ```
-03. API Collection for Fetching Custom Collection-Level and Multiple items
+📚 API Collection for Fetching Custom Collection-Level and Multiple items
 ```bash
 php artisan make:resource UserCollection
 ```
 
 
-# Artisan Cache Command 
-## Clear Cache
-### Clear application cache
+# 🧹 Artisan Cache Command 
+## 🔄 Clear Cache
+🧼 Clear application cache
 ```bash
 php artisan cache:clear
 ```
-### Clear config cache
+⚙️ Clear config cache
 ```bash
 php artisan config:clear
 ```
-### Clear route cache
+🗺️ Clear route cache
 ```bash
 php artisan route:clear
 ```
-### Clear compiled view files
+🖼️ Clear compiled view files
 ```bash
 php artisan view:clear
 ```
-### Clear all caches (application, route, config, view)
+🧨 Clear all caches (application, route, config, view)
 ```bash
 php artisan optimize:clear
 ```
 
-## Create Cache
-### Cache the configuration files
+## 🗃️ Create Cache
+🔐 Cache the configuration files
 ```bash
 php artisan config:cache
 ```
-### Cache the routes
+🛣️ Cache the routes
 ```bash
 php artisan route:cache
 ```
-### Cache the views
+🗂️ Cache the views
 ```bash
 php artisan view:cache
 ```
-
-
-
-
-## List all registered routes
+📋 List all registered routes
 ```bash
 php artisan route:list
 ```
 
-## Run Application With Docker
+# 🐳 Run Application With Docker
 
 ```bash
 # For With Docker
