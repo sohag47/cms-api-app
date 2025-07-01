@@ -47,92 +47,92 @@ php artisan serve --host=0.0.0.0 --port=8080
 
 # 💾 Database Actions
 
-📝 Create Model, Migration, Controller file
+Create Model, Migration, Controller file
 ```bash
 php artisan make:model Test --migration --controller --resource 
 ```
-🌱 Create Seeder file
+Create Seeder file
 ```bash
 php artisan make:seeder ProductSeeder 
 ```
-🏭 Create Factory file
+Create Factory file
 ```bash
 php artisan make:factory ProductFactory 
 ```
-📌 Change and affect Database
+Change and affect Database
 ```bash
 php artisan migrate:refresh --seed 
 ```
-✅ Single seed
+Single seed
 ```bash
 php artisan db:seed --class=BrandSeeder
 ```
-⏪ Run all seeders
+Run all seeders
 ```bash
 php artisan db:seed
 ```
-📂 Rollback the last database migration
+Rollback the last database migration
 ```bash
 php artisan migrate:rollback
 ```
-📝 Create a migration file
+Create a migration file
 ```bash
 php artisan make:migration create_table_name
 ```
 
 
 # 📦 Important Artisan Command
-🧩 create resource api route
+create resource api route
 ```bash
 php artisan make:controller UserController --api
 ```
-🧾 API Resources for Fetching a Single Item and Multiple items
+API Resources for Fetching a Single Item and Multiple items
 ```bash
 php artisan make:resource UserResource
 ```
-📚 API Collection for Fetching Custom Collection-Level and Multiple items
+API Collection for Fetching Custom Collection-Level and Multiple items
 ```bash
 php artisan make:resource UserCollection
 ```
 
 
-# 🧹 Artisan Cache Command 
-## 🔄 Clear Cache
-🧼 Clear application cache
+# 🧠 Artisan Cache Command 
+## 🧹 Clear Cache
+Clear application cache
 ```bash
 php artisan cache:clear
 ```
-⚙️ Clear config cache
+Clear config cache
 ```bash
 php artisan config:clear
 ```
-🗺️ Clear route cache
+Clear route cache
 ```bash
 php artisan route:clear
 ```
-🖼️ Clear compiled view files
+Clear compiled view files
 ```bash
 php artisan view:clear
 ```
-🧨 Clear all caches (application, route, config, view)
+Clear all caches (application, route, config, view)
 ```bash
 php artisan optimize:clear
 ```
 
 ## 🗃️ Create Cache
-🔐 Cache the configuration files
+Cache the configuration files
 ```bash
 php artisan config:cache
 ```
-🛣️ Cache the routes
+Cache the routes
 ```bash
 php artisan route:cache
 ```
-🗂️ Cache the views
+Cache the views
 ```bash
 php artisan view:cache
 ```
-📋 List all registered routes
+List all registered routes
 ```bash
 php artisan route:list
 ```
