@@ -67,6 +67,19 @@ php artisan migrate:refresh --seed
 ```bash
 php artisan db:seed --class=BrandSeeder
 ```
+06. Run all seeders
+```bash
+php artisan db:seed
+```
+07. Rollback the last database migration
+```bash
+php artisan migrate:rollback
+```
+08. Create a migration file
+```bash
+php artisan make:migration create_table_name
+```
+
 
 ## Important Artisan Command
 01. create resource api route
@@ -80,6 +93,25 @@ php artisan make:resource UserResource
 03. API Collection for Fetching Custom Collection-Level and Multiple items
 ```bash
 php artisan make:resource UserCollection
+```
+
+
+## For Production Artisan Command 
+04. Clear application cache
+```bash
+php artisan cache:clear
+```
+05. Clear config cache
+```bash
+php artisan config:clear
+```
+06. Clear route cache
+```bash
+php artisan route:clear
+```
+07. List all registered routes
+```bash
+php artisan route:list
 ```
 
 ## Run Application With Docker
