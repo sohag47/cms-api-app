@@ -22,9 +22,9 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Setup Application
+## 🚀 Setup Application
 
-1.Setup dependence
+📦 Setup dependence
 ```bash
 composer install
 ```
