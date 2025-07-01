@@ -21,6 +21,13 @@
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications. -->
+# 🧰 Tech Stack
+
+**🖥️ Server:** PHP, Laravel
+
+**🗄️ Database:** MySQL
+
+**💻 Client:** React, Redux, TailwindCSS
 
 # 🚀 Setup Application
 
