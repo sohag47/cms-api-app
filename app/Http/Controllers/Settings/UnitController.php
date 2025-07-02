@@ -28,7 +28,7 @@ class UnitController extends Controller
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'search'=> ['nullable', 'string', 'max:255'],            
+            'search' => ['nullable', 'string', 'max:255'],
         ]);
 
         if ($validator->fails()) {
@@ -59,8 +59,8 @@ class UnitController extends Controller
         if ($validator->fails()) {
             return $this->respondValidationError($validator->errors());
         }
-        
-        $currency = $this->repositoryInterface->store($request->all(), $this->model);        
+
+        $currency = $this->repositoryInterface->store($request->all(), $this->model);
         return $this->respondWithCreated($currency);
     }
 
@@ -80,7 +80,6 @@ class UnitController extends Controller
     {
         $rules = [
             'name' => ['required', 'string', 'max:255', Rule::unique('units', 'name')->ignore($unit->id)],
-            
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -104,7 +103,7 @@ class UnitController extends Controller
     public function dropdown(Request $request)
     {
         $rules = [
-            'search'=> ['nullable', 'string', 'max:255'],
+            'search' => ['nullable', 'string', 'max:255'],
         ];
         $validator = Validator::make($request->all(), $rules);
 

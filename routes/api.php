@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Settings\BrandController;
 use App\Http\Controllers\Settings\CategoryController;
 use App\Http\Controllers\DocumentController;
@@ -57,7 +58,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 //! API resource
 Route::apiResources([
-    'welcome'=> LearningController::class,
+    'welcome' => LearningController::class,
     'categories' => CategoryController::class,
     'products' => ProductController::class,
     'users' => UserController::class,
@@ -65,6 +66,7 @@ Route::apiResources([
     'currencies' => CurrencyController::class,
     'product-types' => ProductTypeController::class,
     'units' => UnitController::class,
+    'clients' => ClientController::class,
 ]);
 
 Route::apiResource('countries', CountryController::class)->only(['index']);
@@ -77,7 +79,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum', 'token.expiration'])->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::delete('/logout', [AuthController::class, 'logout']);
-
 });
-
-
