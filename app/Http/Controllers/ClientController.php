@@ -41,7 +41,7 @@ class ClientController extends Controller
         if ($request->filled('search')) {
             $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
         }
-
+        $query->with('country');
         $brands = $this->filterQuery($request, $query);
         return $this->respondWithItem($brands);
     }
@@ -90,6 +90,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
+        $client->load('country');
         return $this->respondWithItem($client);
     }
 
