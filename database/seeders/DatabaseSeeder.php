@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 
-use Database\Settings\Seeders\BrandSeeder;
-use Database\Settings\Seeders\CategorySeeder;
-use Database\Settings\Seeders\CountrySeeder;
-use Database\Settings\Seeders\CurrencySeeder;
-use Database\Settings\Seeders\ProductTypeSeeder;
-use Database\Settings\Seeders\UnitSeeder;
+use Database\Seeders\BrandSeeder;
+use Database\Seeders\CategorySeeder;
+use Database\Seeders\CountrySeeder;
+use Database\Seeders\CurrencySeeder;
+use Database\Seeders\ProductTypeSeeder;
+use Database\Seeders\UnitSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            BrandSeeder::class,
+            // BrandSeeder::class,
             CategorySeeder::class,
             CurrencySeeder::class,
             CountrySeeder::class,

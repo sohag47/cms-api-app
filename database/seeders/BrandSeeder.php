@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Settings\Seeders;
+namespace Database\Seeders;
 
 use App\Enums\StatusEnums;
 use App\Models\Settings\Brand;

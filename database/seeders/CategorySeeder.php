@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Settings\Seeders;
+namespace Database\Seeders;
 
 use App\Enums\StatusEnums;
 use App\Models\Settings\Category;
@@ -14,7 +14,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-         $data = [
+        $data = [
             [
                 'name' => 'Server',
                 'slug' => 'server',

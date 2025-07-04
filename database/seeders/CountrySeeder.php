@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Settings\Seeders;
+namespace Database\Seeders;
 
 use App\Enums\StatusEnums;
 use App\Models\Settings\Country;
@@ -14,7 +14,7 @@ class CountrySeeder extends Seeder
      */
     public function run(): void
     {
-         $countries = [
+        $countries = [
             ['name' => 'Afghanistan', 'iso_code_2' => 'AF', 'iso_code_3' => 'AFG', 'phone_code' => '93'],
             ['name' => 'Albania', 'iso_code_2' => 'AL', 'iso_code_3' => 'ALB', 'phone_code' => '355'],
             ['name' => 'Algeria', 'iso_code_2' => 'DZ', 'iso_code_3' => 'DZA', 'phone_code' => '213'],

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Settings\Seeders;
+namespace Database\Seeders;
 
 use App\Models\Settings\Currency;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
