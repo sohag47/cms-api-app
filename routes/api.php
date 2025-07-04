@@ -57,19 +57,24 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 //! API resource
+Route::prefix('settings')->group(function () {
+    Route::apiResources([
+        'categories' => CategoryController::class,
+        'brands' => BrandController::class,
+        'currencies' => CurrencyController::class,
+        'product-types' => ProductTypeController::class,
+        'units' => UnitController::class,
+    ]);
+    Route::apiResource('countries', CountryController::class)->only(['index']);
+});
 Route::apiResources([
     'welcome' => LearningController::class,
-    'categories' => CategoryController::class,
     'products' => ProductController::class,
     'users' => UserController::class,
-    'brands' => BrandController::class,
-    'currencies' => CurrencyController::class,
-    'product-types' => ProductTypeController::class,
-    'units' => UnitController::class,
     'clients' => ClientController::class,
 ]);
 
-Route::apiResource('countries', CountryController::class)->only(['index']);
+
 
 
 //! Route middleware
