@@ -56,7 +56,7 @@ php artisan serve --host=0.0.0.0 --port=8080
 
 Create Model, Migration, Controller file
 ```bash
-php artisan make:model Test --migration --controller --resource 
+php artisan make:model Test --migration --controller --resource --api
 ```
 Create Seeder file
 ```bash
