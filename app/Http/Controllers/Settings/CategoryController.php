@@ -13,7 +13,6 @@ use App\Models\Settings\Category;
 use App\Traits\ApiResponse;
 
 
-
 class CategoryController extends Controller
 {
     use ApiResponse;
@@ -31,10 +30,15 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            ...$this->validationRules(),  
-            'search'=> ['nullable', 'string', 'max:255'],
-            'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only([
-                CategoryStatus::ACTIVE, CategoryStatus::ARCHIVED, CategoryStatus::INACTIVE, CategoryStatus::DISABLED]
+            ...$this->validationRules(),
+            'search' => ['nullable', 'string', 'max:255'],
+            'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only(
+                [
+                    CategoryStatus::ACTIVE,
+                    CategoryStatus::ARCHIVED,
+                    CategoryStatus::INACTIVE,
+                    CategoryStatus::DISABLED
+                ]
             )],
         ]);
 
@@ -65,8 +69,13 @@ class CategoryController extends Controller
             'slug' => ['required', 'string', 'max:255', 'unique:categories'],
             'parent_id' => ['nullable', 'integer'],
             'order' => ['nullable', 'integer'],
-            'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only([
-                CategoryStatus::ACTIVE, CategoryStatus::ARCHIVED, CategoryStatus::INACTIVE, CategoryStatus::DISABLED]
+            'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only(
+                [
+                    CategoryStatus::ACTIVE,
+                    CategoryStatus::ARCHIVED,
+                    CategoryStatus::INACTIVE,
+                    CategoryStatus::DISABLED
+                ]
             )],
         ];
 
@@ -78,7 +87,7 @@ class CategoryController extends Controller
         if (!isset($data['order'])) {
             $data['order'] = $this->model::max('order') + 1 ?? 1;
         }
-        $category = $this->repositoryInterface->store($data, $this->model);        
+        $category = $this->repositoryInterface->store($data, $this->model);
         return $this->respondWithCreated($category);
     }
 
@@ -101,8 +110,13 @@ class CategoryController extends Controller
             'slug' => ['required', 'string', 'max:255', Rule::unique('categories', 'name')->ignore($category->id)],
             'parent_id' => ['nullable', 'integer'],
             'order' => ['nullable', 'integer'],
-            'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only([
-                CategoryStatus::ACTIVE, CategoryStatus::ARCHIVED, CategoryStatus::INACTIVE, CategoryStatus::DISABLED]
+            'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only(
+                [
+                    CategoryStatus::ACTIVE,
+                    CategoryStatus::ARCHIVED,
+                    CategoryStatus::INACTIVE,
+                    CategoryStatus::DISABLED
+                ]
             )],
         ];
 
@@ -131,7 +145,7 @@ class CategoryController extends Controller
     public function dropdown(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'search'=> ['nullable', 'string', 'max:255'],            
+            'search' => ['nullable', 'string', 'max:255'],
         ]);
 
         if ($validator->fails()) {
@@ -154,5 +168,37 @@ class CategoryController extends Controller
             ]);
 
         return $this->respondWithCollection($categories);
+    }
+
+    public function bulkInsert(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'categories' => ['required', 'array'],
+            'categories.*.name' => ['required', 'string', 'max:255', 'unique:categories'],
+            'categories.*.slug' => ['required', 'string', 'max:255', 'unique:categories'],
+            'categories.*.status' => ['required', 'string', Rule::in([
+                CategoryStatus::ACTIVE,
+                CategoryStatus::ARCHIVED,
+                CategoryStatus::INACTIVE,
+                CategoryStatus::DISABLED
+            ])],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondValidationError($validator->errors());
+        }
+
+        $data = [];
+        foreach ($request->input('categories') as $item) {
+            $data[] = [
+                'name' => $item['name'],
+                'slug' => $item['slug'],
+                'status' => $item['status'],
+                'created_at' => now()
+            ];
+        }
+        Category::insert($data);
+
+        return $this->respondWithCreated(null, 'Categories imported successfully');
     }
 }

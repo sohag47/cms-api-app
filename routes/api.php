@@ -58,6 +58,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 //! API resource
 Route::prefix('settings')->group(function () {
+    Route::apiResource('countries', CountryController::class)->only(['index']);
     Route::apiResources([
         'categories' => CategoryController::class,
         'brands' => BrandController::class,
@@ -65,16 +66,21 @@ Route::prefix('settings')->group(function () {
         'product-types' => ProductTypeController::class,
         'units' => UnitController::class,
     ]);
-    Route::apiResource('countries', CountryController::class)->only(['index']);
+
+
+    //! for bulk data manage [insert/update]
+    Route::post('/categories/bulk-insert', [CategoryController::class, 'bulkInsert']);
+    // Route::prefix('categories')->group(function () {
+    //     Route::post('/categories/bulk-insert', [CategoryController::class, 'bulkInsert']);
+    // });
 });
+
 Route::apiResources([
     'welcome' => LearningController::class,
     'products' => ProductController::class,
     'users' => UserController::class,
     'clients' => ClientController::class,
 ]);
-
-
 
 
 //! Route middleware
