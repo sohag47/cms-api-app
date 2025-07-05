@@ -70,9 +70,6 @@ Route::prefix('settings')->group(function () {
 
     //! for bulk data manage [insert/update]
     Route::post('/categories/bulk-insert', [CategoryController::class, 'bulkInsert']);
-    // Route::prefix('categories')->group(function () {
-    //     Route::post('/categories/bulk-insert', [CategoryController::class, 'bulkInsert']);
-    // });
 });
 
 Route::apiResources([
