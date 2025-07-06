@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnums;
 use App\Http\Interfaces\RepositoryInterface;
-use App\Models\ContactPerson;
+use App\Models\Address;
 use App\Traits\ApiResponse;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-
-class ContactPersonController extends Controller
+class AddressController extends Controller
 {
     use ApiResponse;
     private $model;
@@ -19,7 +18,7 @@ class ContactPersonController extends Controller
 
     public function __construct(RepositoryInterface $repositoryInterface)
     {
-        $this->model = ContactPerson::class;
+        $this->model = Address::class;
         $this->repositoryInterface = $repositoryInterface;
     }
     /**
@@ -50,11 +49,18 @@ class ContactPersonController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255', 'unique:contact_person', "email"],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'designation' => ['nullable'],
+            'street_address' => ['required', 'string', 'max:255'],
+            'country_id' => ['nullable', 'integer'],
             'client_id' => ['nullable', 'integer'],
+            'contact_person_id' => ['nullable', 'integer'],
+            'status' => ['nullable', 'string', 'max:255', Rule::enum(StatusEnums::class)->only(
+                [
+                    StatusEnums::ACTIVE,
+                    StatusEnums::DRAFT,
+                    StatusEnums::INACTIVE,
+                    StatusEnums::DISABLED
+                ]
+            )],
 
         ];
 
@@ -70,23 +76,31 @@ class ContactPersonController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ContactPerson $contact_person)
+    public function show(Address $address)
     {
-        $contact_person->load('country');
-        return $this->respondWithItem($contact_person);
+        // $address->load('country');
+        return $this->respondWithItem($address);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ContactPerson $contact_person)
+    public function update(Request $request, Address $address)
     {
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255', "email", Rule::unique('contact_person', 'email')->ignore($contact_person->id)],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'designation' => ['nullable'],
+            'street_address' => ['required', 'string', 'max:255'],
+            'country_id' => ['nullable', 'integer'],
             'client_id' => ['nullable', 'integer'],
+            'contact_person_id' => ['nullable', 'integer'],
+            'status' => ['nullable', 'string', 'max:255', Rule::enum(StatusEnums::class)->only(
+                [
+                    StatusEnums::ACTIVE,
+                    StatusEnums::DRAFT,
+                    StatusEnums::INACTIVE,
+                    StatusEnums::DISABLED
+                ]
+            )],
+
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -94,16 +108,16 @@ class ContactPersonController extends Controller
             return $this->respondValidationError($validator->errors());
         }
 
-        $create_item = $this->repositoryInterface->update($request->all(), $contact_person);
+        $create_item = $this->repositoryInterface->update($request->all(), $address);
         return $this->respondWithCreated($create_item);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ContactPerson $contact_person)
+    public function destroy(Address $address)
     {
-        $this->repositoryInterface->delete($contact_person);
+        $this->repositoryInterface->delete($address);
         return $this->respondWithDeleted();
     }
 
@@ -123,13 +137,13 @@ class ContactPersonController extends Controller
             $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
         }
 
-        $clients = $query->select('id', 'name')
+        $address = $query->select('id', 'name')
             ->get()
             ->map(fn($client) => [
                 'value' => $client->id,
                 'label' => $client->name,
             ]);
 
-        return $this->respondWithCollection($clients);
+        return $this->respondWithCollection($address);
     }
 }

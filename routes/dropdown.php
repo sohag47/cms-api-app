@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Settings\CountryController;
 use App\Http\Controllers\Settings\CategoryController;
@@ -35,6 +36,7 @@ Route::prefix('dropdown')->group(function () {
         Route::get('product-types', [ProductTypeController::class, 'dropdown']);
         Route::get('units', [UnitController::class, 'dropdown']);
         Route::get('clients', [ClientController::class, 'dropdown']);
+        Route::get('address', [AddressController::class, 'dropdown']);
         // Route::get('libraries', [LibraryController::class, 'dropdown'])->name('libraries.dropdown');
         // Route::get('patron-categories', [PatronCategoryController::class, 'dropdown']);
         // Route::get('frameworks', [FrameworkController::class, 'dropdown']);

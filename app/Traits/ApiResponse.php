@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponse
 {
-    
+
     /**
      * @param $message
      * @param $successCode
@@ -40,7 +40,7 @@ trait ApiResponse
     {
         return $this->respondWithSuccess($data, ApiResponseEnum::ITEM_FOUND);
     }
-        /**
+    /**
      * @param $collection
      * @param $callback
      * @return \Illuminate\Http\JsonResponse
@@ -69,8 +69,8 @@ trait ApiResponse
             'success' => false,
             'code'    => $code,
             'message' => $message,
-            'error'   => $error,
-            'data'    => null  
+            'errors'   => $error,
+            'data'    => null
         ];
         return $this->jsonResponse($response_data);
     }
@@ -102,5 +102,4 @@ trait ApiResponse
         $error = empty($errors) ? ApiResponseEnum::UNAUTHORIZED->errorMessage() : $errors;
         return $this->respondWithError(Response::HTTP_UNAUTHORIZED, $message, $error);
     }
-
 }

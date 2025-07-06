@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             ProductTypeSeeder::class,
             UnitSeeder::class,
+            AddressSeeder::class,
         ]);
     }
 }

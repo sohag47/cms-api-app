@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ContactPersonController;
 use App\Http\Controllers\Settings\BrandController;
 use App\Http\Controllers\Settings\CategoryController;
 use App\Http\Controllers\DocumentController;
@@ -77,6 +79,8 @@ Route::apiResources([
     'products' => ProductController::class,
     'users' => UserController::class,
     'clients' => ClientController::class,
+    'contact-persons' => ContactPersonController::class,
+    'address' => AddressController::class,
 ]);
 
 
