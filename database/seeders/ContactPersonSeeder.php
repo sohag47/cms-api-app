@@ -19,7 +19,7 @@ class ContactPersonSeeder extends Seeder
                 'email' => 'sohag@email.com',
                 'phone' => '01876333284',
                 'designation' => 'Software engineer',
-                'client_id' => 1,
+                'client_id' => null,
                 'created_at' => now(),
             ],
             [
@@ -27,7 +27,7 @@ class ContactPersonSeeder extends Seeder
                 'email' => 'mahim@email.com',
                 'phone' => '01876333285',
                 'designation' => 'Software engineer',
-                'client_id' => 1,
+                'client_id' => null,
                 'created_at' => now(),
             ]
         ];
