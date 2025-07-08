@@ -14,6 +14,19 @@ class AuthController extends Controller
 {
     use ApiResponse;
 
+    public function generateToken($user, $message)
+    {
+        $token = $user->createToken('auth_token')->plainTextToken;
+        $expirationMinutes = config('sanctum.expiration', 60); // Default to 60 minutes
+
+        return $this->respondWithCreated([
+            'token' => $token,
+            'token_type' => 'Bearer',
+            'expires' => $expirationMinutes,
+            'user' => $user,
+        ], $message);
+    }
+
     public function register(Request $request)
     {
         $rules = [
@@ -33,26 +46,15 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-
-        // Generate a Sanctum token for the user
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        // Define token expiration (in minutes)
-        $expirationMinutes = config('sanctum.expiration', 60); // Default to 60 minutes
-
-        return $this->respondWithCreated([
-            'token'=> $token,
-            'token_type' => 'Bearer',
-            'expires_at' => $expirationMinutes,
-            'user'=> $user,
-        ], 'Registration successful');
+        return $this->generateToken($user, "Registration Successfully");
     }
+
 
     public function login(Request $request)
     {
-        $rules = [ 
+        $rules = [
             'email' => 'required|string|email',
-            'password' => 'required',  
+            'password' => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -60,35 +62,23 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt($request->all())) {
-            $user = Auth::user();
-            $token = $user->createToken('auth_token')->plainTextToken;
-            $expirationMinutes = config('sanctum.expiration', 60); // Default to 60 minutes
-
-            return $this->respondWithCreated([
-                'token'=> $token,
-                'token_type' => 'Bearer',
-                'expires' => $expirationMinutes,
-                'user'=> $user,
-            ]);
-        }else{
+            return $this->generateToken(Auth::user(), "Login Successfully");
+        } else {
             return $this->respondUnauthorizedError('Invalid credentials');
         }
     }
     public function profile()
     {
-        return $this->respondWithCreated([
-            'user'=> Auth::user(),
-        ]);
+        return $this->respondWithSuccess(Auth::user());
     }
 
     // Handle logout
     public function logout(Request $request)
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $request->user()->currentAccessToken()->delete();
             return $this->respondWithSuccess(null, 'Logged out successfully', Response::HTTP_NO_CONTENT);
         }
         return $this->respondUnauthorizedError();
-        
     }
 }

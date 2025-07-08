@@ -37,51 +37,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 //! Basic Route
 Route::get('/', function () {
-    $response = [
+    return response()->json([
         'success' => true,
         'message' => "Hello World, Welcome to Hell",
-        'data' => [
-            // 'user'=> VWUsers::get(), // one to one 
-            // 'categories' => Category::with('posts')->paginate(10),// many to many
-            // 'posts' => Post::with('category')->get(),// many to many
-        ],
+        'data' => null,
         'errors' => null,
-    ];
-    return response()->json($response, Response::HTTP_OK);
+    ], Response::HTTP_OK);
 });
-
-//! Route controller
-Route::post('/upload-files', [DocumentController::class, 'store']);
-Route::post('/delete-files', [DocumentController::class, 'destroy']);
 
 // create login route
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-
-//! API resource
-Route::prefix('settings')->group(function () {
-    Route::apiResource('countries', CountryController::class)->only(['index']);
-    Route::apiResources([
-        'categories' => CategoryController::class,
-        'brands' => BrandController::class,
-        'currencies' => CurrencyController::class,
-        'product-types' => ProductTypeController::class,
-        'units' => UnitController::class,
-    ]);
-
-
-    //! for bulk data manage [insert/update]
-    Route::post('/categories/bulk-insert', [CategoryController::class, 'bulkInsert']);
-});
-
-Route::apiResources([
-    'welcome' => LearningController::class,
-    'products' => ProductController::class,
-    'users' => UserController::class,
-    'clients' => ClientController::class,
-    'contact-persons' => ContactPersonController::class,
-    'address' => AddressController::class,
-]);
 
 
 //! Route middleware
@@ -89,6 +55,38 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware(['auth:sanctum', 'token.expiration'])->group(function () {
+    //? auth
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::delete('/logout', [AuthController::class, 'logout']);
+
+    // file handle
+    Route::post('/upload-files', [DocumentController::class, 'store']);
+    Route::post('/delete-files', [DocumentController::class, 'destroy']);
+
+
+
+    //? settings
+    Route::prefix('settings')->group(function () {
+        Route::apiResource('countries', CountryController::class)->only(['index']);
+        Route::apiResources([
+            'categories' => CategoryController::class,
+            'brands' => BrandController::class,
+            'currencies' => CurrencyController::class,
+            'product-types' => ProductTypeController::class,
+            'units' => UnitController::class,
+        ]);
+
+        //* for bulk data manage [insert/update]
+        Route::post('/categories/bulk-insert', [CategoryController::class, 'bulkInsert']);
+    });
+
+    //? All CURD
+    Route::apiResources([
+        'welcome' => LearningController::class,
+        'products' => ProductController::class,
+        'users' => UserController::class,
+        'clients' => ClientController::class,
+        'contact-persons' => ContactPersonController::class,
+        'address' => AddressController::class,
+    ]);
 });

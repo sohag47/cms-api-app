@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
@@ -41,8 +42,8 @@ class Handler extends ExceptionHandler
         // Handle MethodNotAllowedHttpException (405)
         $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
             return $this->respondWithError(
-                Response::HTTP_METHOD_NOT_ALLOWED, 
-                ApiResponseEnum::METHOD_NOT_ALLOWED, 
+                Response::HTTP_METHOD_NOT_ALLOWED,
+                ApiResponseEnum::METHOD_NOT_ALLOWED,
                 ApiResponseEnum::METHOD_NOT_ALLOWED->errorMessage()
             );
         });
@@ -50,8 +51,8 @@ class Handler extends ExceptionHandler
         // Handle UnauthorizedHttpException (401)
         $this->renderable(function (UnauthorizedHttpException $e, $request) {
             return $this->respondWithError(
-                Response::HTTP_UNAUTHORIZED, 
-                ApiResponseEnum::UNAUTHORIZED, 
+                Response::HTTP_UNAUTHORIZED,
+                ApiResponseEnum::UNAUTHORIZED,
                 ApiResponseEnum::UNAUTHORIZED->errorMessage()
             );
         });
@@ -66,23 +67,23 @@ class Handler extends ExceptionHandler
         $this->renderable(function (HttpException $e, $request) {
             // Centralize error handling for 4xx and 5xx errors
             $statusCode = $e->getStatusCode();
-            
+
             // Handle common errors in a consistent way
             switch ($statusCode) {
                 case Response::HTTP_INTERNAL_SERVER_ERROR:
                     return $this->respondServerError(
-                        ApiResponseEnum::SERVER_ERROR, 
+                        ApiResponseEnum::SERVER_ERROR,
                         ApiResponseEnum::SERVER_ERROR->errorMessage()
                     );
                 case Response::HTTP_FORBIDDEN:
                     return $this->respondWithError(
                         Response::HTTP_FORBIDDEN,
-                        ApiResponseEnum::FORBIDDEN, 
+                        ApiResponseEnum::FORBIDDEN,
                         ApiResponseEnum::FORBIDDEN->errorMessage()
                     );
                 case Response::HTTP_UNPROCESSABLE_ENTITY:
                     return $this->respondValidationError(
-                        ApiResponseEnum::VALIDATION_ERROR, 
+                        ApiResponseEnum::VALIDATION_ERROR,
                         ApiResponseEnum::VALIDATION_ERROR->errorMessage()
                     );
                 case Response::HTTP_TOO_MANY_REQUESTS:
@@ -102,5 +103,14 @@ class Handler extends ExceptionHandler
                     return parent::render($request, $e);
             }
         });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $this->respondWithError(
+            Response::HTTP_UNAUTHORIZED,
+            ApiResponseEnum::UNAUTHORIZED,
+            ApiResponseEnum::UNAUTHORIZED->errorMessage()
+        );
     }
 }
