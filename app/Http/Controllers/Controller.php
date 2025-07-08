@@ -14,11 +14,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function validationRules(){
+    public function validationRules()
+    {
         return [
             'paginate' => ['nullable', 'string',  Rule::in(['yes', 'no'])],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
-            'page' => ['nullable', 'integer', 'min:1'], 
+            'page' => ['nullable', 'integer', 'min:1'],
             'order_by' => ['nullable', 'string', 'max:255'],
             'order' => ['nullable', 'string', Rule::in(['asc', 'desc'])],
             'start_date' => ['nullable', 'date'],
@@ -46,7 +47,7 @@ class Controller extends BaseController
         $order = $request->query('order', 'desc'); // Default to 'desc'
         $query->orderBy($orderBy, $order);
 
-        if($request->filled('paginate') && $request->query('paginate') == 'no') {
+        if ($request->filled('paginate') && $request->query('paginate') == 'no') {
             $items = $query->get();
             return $this->respondWithItem($items);
         }

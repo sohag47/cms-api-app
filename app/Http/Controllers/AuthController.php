@@ -60,7 +60,6 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return $this->respondValidationError($validator->errors());
         }
-
         if (Auth::attempt($request->all())) {
             return $this->generateToken(Auth::user(), "Login Successfully");
         } else {
