@@ -15,7 +15,7 @@ use App\Http\Middleware\VerifyCsrfToken;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome to TenderHub Application');
 });
 //! Disabling Middleware Directly on the Route
 Route::post('webhook/receive', function () {
