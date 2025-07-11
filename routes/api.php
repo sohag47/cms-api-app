@@ -80,7 +80,7 @@ Route::middleware(['auth:sanctum', 'token.expiration'])->group(function () {
         Route::post('/categories/bulk-insert', [CategoryController::class, 'bulkInsert']);
     });
 
-    //? All CURD
+    //? All CURD resource route
     Route::apiResources([
         'welcome' => LearningController::class,
         'products' => ProductController::class,
