@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Enums\ClientOrigin;
 use App\Enums\ClientType;
 use App\Http\Interfaces\RepositoryInterface;
-use App\Models\Product;
+use App\Models\BatchPrice;
 use App\Traits\ApiResponse;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class ProductController extends Controller
+class BatchPriceController extends Controller
 {
     use ApiResponse;
     private $model;
@@ -20,7 +20,7 @@ class ProductController extends Controller
 
     public function __construct(RepositoryInterface $repositoryInterface)
     {
-        $this->model = Product::class;
+        $this->model = BatchPrice::class;
         $this->repositoryInterface = $repositoryInterface;
     }
     /**
@@ -41,7 +41,7 @@ class ProductController extends Controller
         if ($request->filled('search')) {
             $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
         }
-        $query->with(['brand', 'currency', 'product_type', 'origin', 'manufacture']);
+        // $query->with(['brand', 'currency', 'product_type', 'origin', 'manufacture']);
         $brands = $this->filterQuery($request, $query);
         return $this->respondWithItem($brands);
     }
@@ -52,28 +52,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255', 'unique:clients', "email"],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'thumb_image' => ['nullable'],
-            'address' => ['nullable'],
-            'city' => ['nullable'],
-            'state' => ['nullable'],
-            'postal_code' => ['nullable'],
-            'country_id' => ['nullable', 'integer'],
-            'client_type' => ['required', 'string', 'max:255', Rule::enum(ClientType::class)->only(
-                [
-                    ClientType::CUSTOMER,
-                    ClientType::SUPPLIER,
-                    ClientType::BOTH
-                ]
-            )],
-            'client_origin' => ['required', 'string', 'max:255', Rule::enum(ClientOrigin::class)->only(
-                [
-                    ClientOrigin::LOCAL,
-                    ClientOrigin::FOREIGN,
-                ]
-            )],
+            'batch_no' => ['required', 'string', 'max:255', 'unique:batch_no'],
+            'price' => ['required', 'string', 'max:255'],
+            'product_id' => ['nullable', 'integer'],
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -88,40 +69,22 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(BatchPrice $batch_price)
     {
-        $product->load('country');
-        return $this->respondWithItem($product);
+        // $batch_price->load('country');
+        return $this->respondWithItem($batch_price);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, BatchPrice $batch_price)
     {
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255', "email", Rule::unique('clients', 'email')->ignore($product->id)],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'thumb_image' => ['nullable'],
-            'address' => ['nullable'],
-            'city' => ['nullable'],
-            'state' => ['nullable'],
-            'postal_code' => ['nullable'],
-            'country_id' => ['nullable', 'integer'],
-            'client_type' => ['required', 'string', 'max:255', Rule::enum(ClientType::class)->only(
-                [
-                    ClientType::CUSTOMER,
-                    ClientType::SUPPLIER,
-                    ClientType::BOTH
-                ]
-            )],
-            'client_origin' => ['required', 'string', 'max:255', Rule::enum(ClientOrigin::class)->only(
-                [
-                    ClientOrigin::LOCAL,
-                    ClientOrigin::FOREIGN,
-                ]
-            )],
+            'batch_no' => ['required', 'string', 'max:255', Rule::unique('batch_prices', 'batch_no')->ignore($batch_price->id)],
+            'price' => ['required', 'string', 'max:255'],
+            'product_id' => ['nullable', 'integer'],
+
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -129,16 +92,16 @@ class ProductController extends Controller
             return $this->respondValidationError($validator->errors());
         }
 
-        $create_item = $this->repositoryInterface->update($request->all(), $product);
+        $create_item = $this->repositoryInterface->update($request->all(), $batch_price);
         return $this->respondWithCreated($create_item);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(BatchPrice $batch_price)
     {
-        $this->repositoryInterface->delete($product);
+        $this->repositoryInterface->delete($batch_price);
         return $this->respondWithDeleted();
     }
 

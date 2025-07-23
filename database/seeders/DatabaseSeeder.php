@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             
             ContactPersonSeeder::class,
             AddressSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }

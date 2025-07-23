@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BatchPriceController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactPersonController;
 use App\Http\Controllers\Settings\BrandController;
@@ -84,6 +85,7 @@ Route::middleware(['auth:sanctum', 'token.expiration'])->group(function () {
     Route::apiResources([
         'welcome' => LearningController::class,
         'products' => ProductController::class,
+        'batch-prices' => BatchPriceController::class,
         'users' => UserController::class,
         'clients' => ClientController::class,
         'contact-persons' => ContactPersonController::class,
