@@ -28,8 +28,8 @@ class Category extends Model
     }
 
 
-    // public function posts()
-    // {
-    //     return $this->hasMany(Post::class);
-    // }
+    public function productTypes()
+    {
+        return $this->belongsToMany(ProductType::class, 'product_categories', 'category_id', 'product_type_id');
+    }
 }

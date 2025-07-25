@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 use App\Enums\CategoryStatus;
+use App\Models\Settings\ProductCategories;
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\RepositoryInterface;
 use App\Models\Settings\Category;
@@ -47,7 +49,7 @@ class CategoryController extends Controller
         }
 
         // Query Builder for filtering
-        $query = Category::query();
+        $query = $this->model::with('productTypes');
 
         // Apply search filter
         if ($request->filled('search')) {
@@ -65,10 +67,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => ['required', 'string', 'max:255', 'unique:categories'],
-            'slug' => ['required', 'string', 'max:255', 'unique:categories'],
-            'parent_id' => ['nullable', 'integer'],
-            'order' => ['nullable', 'integer'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('categories', 'name')],
+            'product_types' => ['required', 'array'],
+            'product_types.*' => ['integer', 'distinct', 'exists:product_types,id'],
             'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only(
                 [
                     CategoryStatus::ACTIVE,
@@ -83,12 +84,29 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             return $this->respondValidationError($validator->errors());
         }
-        $data = $request->all();
-        if (!isset($data['order'])) {
-            $data['order'] = $this->model::max('order') + 1 ?? 1;
+
+
+        DB::beginTransaction();
+        try {
+            $category = $this->model::create([
+                'name' => $request->name,
+                'status' => $request->status ?? CategoryStatus::ACTIVE,
+            ]);
+            $product_categories = [];
+            foreach ($request->product_types as $typeId) {
+                $product_categories[] = [
+                    'product_type_id' => $typeId,
+                    'category_id' => $category->id ?? null,
+                    'created_at' => now(),
+                ];
+            }
+            ProductCategories::insert($product_categories);
+            DB::commit();
+            return $this->respondWithCreated($category);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->respondServerError('Something went wrong.', $e->getMessage());
         }
-        $category = $this->repositoryInterface->store($data, $this->model);
-        return $this->respondWithCreated($category);
     }
 
     /**
@@ -96,6 +114,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        $category->load('productTypes');
         return $this->respondWithItem($category);
     }
 
@@ -107,9 +126,8 @@ class CategoryController extends Controller
     {
         $rules = [
             'name' => ['required', 'string', 'max:255', Rule::unique('categories', 'name')->ignore($category->id)],
-            'slug' => ['required', 'string', 'max:255', Rule::unique('categories', 'name')->ignore($category->id)],
-            'parent_id' => ['nullable', 'integer'],
-            'order' => ['nullable', 'integer'],
+            'product_types' => ['required', 'array'],
+            'product_types.*' => ['integer', 'distinct', 'exists:product_types,id'],
             'status' => ['nullable', 'string', 'max:255', Rule::enum(CategoryStatus::class)->only(
                 [
                     CategoryStatus::ACTIVE,
@@ -124,12 +142,7 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             return $this->respondValidationError($validator->errors());
         }
-
-        $data = $request->all();
-        if (!isset($data['order'])) {
-            $data['order'] = $this->model::max('order') + 1 ?? 1;
-        }
-        $update_category = $this->repositoryInterface->update($data, $category);
+        $update_category = $this->repositoryInterface->update($request->all(), $category);
         return $this->respondWithUpdated($update_category);
     }
 
