@@ -17,7 +17,7 @@ class AuthController extends Controller
     public function generateToken($user, $message)
     {
         $token = $user->createToken('auth_token')->plainTextToken;
-        $expirationMinutes = config('sanctum.expiration', 60); // Default to 60 minutes
+        $expirationMinutes = config('sanctum.expiration',  43200); // Default to 60 minutes
 
         return $this->respondWithCreated([
             'token' => $token,
