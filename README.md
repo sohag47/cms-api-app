@@ -87,7 +87,7 @@ php artisan migrate:rollback
 ```
 Create a migration file
 ```bash
-php artisan make:migration create_table_name
+php artisan make:migration create_flights_table
 ```
 
 

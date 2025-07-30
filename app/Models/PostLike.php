@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Settings\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Post extends Model
+class PostLike extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table = 'posts';
+    protected $table = 'post_likes';
     protected $guarded = [];
 
     /**
@@ -22,9 +21,4 @@ class Post extends Model
     protected $hidden = [
         'deleted_at',
     ];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
 }
