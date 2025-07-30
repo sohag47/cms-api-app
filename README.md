@@ -68,6 +68,9 @@ php artisan make:factory ProductFactory
 ```
 Change and affect Database
 ```bash
+php artisan migrate
+```
+```bash
 php artisan migrate:refresh --seed 
 ```
 Single seed
