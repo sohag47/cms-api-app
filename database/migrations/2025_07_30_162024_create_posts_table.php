@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Blog\PostStatusEnum;
 use App\Enums\CategoryStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,9 +18,15 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('content');
+
+            // Metadata and categorization
+            $table->tinyText('status')->default(PostStatusEnum::DRAFT);
+            $table->enum('comment_status', ['open', 'closed'])->default('open');
+
             $table->foreignId('author_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
-            $table->tinyText('status')->default(CategoryStatus::ACTIVE);
+            $table->foreignId('media_id')->nullable()->constrained('media')->nullOnDelete();
+
             $table->timestamps();
             $table->softDeletes();
         });

@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('currencies', function (Blueprint $table) {
+        Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->string('symbol')->unique();
-            $table->string('code')->unique();
-            $table->string('name')->unique();
-            $table->decimal('usd_exchange_rate', 12, 3);
+            $table->string('file_name');
+            $table->string('file_path');
+            $table->string('file_type');
+            $table->string('file_size');
+            $table->string('alt_text');
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('currencies');
+        Schema::dropIfExists('media');
     }
 };
