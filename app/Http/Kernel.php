@@ -64,11 +64,14 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
+        'permission' => \App\Http\Middleware\PermissionMiddleware::class,
+        'spatie.role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'spatie.permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role.or.permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 
     protected $routeMiddleware = [
         'token.expiration' => \App\Http\Middleware\EnsureTokenHasNotExpired::class,
-        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
     ];
 }

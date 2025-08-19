@@ -8,7 +8,7 @@ use Database\Seeders\CategorySeeder;
 use Database\Seeders\CountrySeeder;
 use Database\Seeders\CurrencySeeder;
 use Database\Seeders\ProductTypeSeeder;
-use Database\Seeders\UnitSeeder;
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            RolePermissionSeeder::class, // Must run before UserSeeder
             UserSeeder::class,
             BrandSeeder::class,
             CategorySeeder::class,

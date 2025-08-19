@@ -8,7 +8,9 @@ use App\Http\Controllers\Settings\BrandController;
 use App\Http\Controllers\Settings\CategoryController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LearningController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Settings\CountryController;
 use App\Http\Controllers\Settings\CurrencyController;
@@ -49,6 +51,26 @@ Route::get('/', function () {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
+// Test routes for role/permission system
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/test/admin-only', function () {
+        return response()->json(['message' => 'You are an admin!']);
+    })->middleware('role:Super Admin');
+
+    Route::get('/test/can-view-users', function () {
+        return response()->json(['message' => 'You can view users!']);
+    })->middleware('permission:view-users');
+
+    Route::get('/test/user-info', function () {
+        $user = auth()->user();
+        return response()->json([
+            'user' => $user->name,
+            'roles' => $user->roles->pluck('name'),
+            'permissions' => $user->getAllPermissions()->pluck('name')
+        ]);
+    });
+});
+
 
 //! Route middleware
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -63,7 +85,28 @@ Route::middleware(['auth:sanctum', 'token.expiration'])->group(function () {
     Route::post('/upload-files', [DocumentController::class, 'store']);
     Route::post('/delete-files', [DocumentController::class, 'destroy']);
 
-
+    //? Role and Permission Management
+    Route::prefix('admin')->middleware(['permission:view-dashboard'])->group(function () {
+        // Role management routes
+        Route::apiResource('roles', RoleController::class)->middleware('permission:view-roles');
+        Route::post('roles/{role}/assign-permission', [RoleController::class, 'assignPermission'])
+            ->middleware('permission:edit-roles');
+        Route::post('roles/{role}/revoke-permission', [RoleController::class, 'revokePermission'])
+            ->middleware('permission:edit-roles');
+        
+        // Permission management routes
+        Route::apiResource('permissions', PermissionController::class)->middleware('permission:view-permissions');
+        
+        // User role management routes
+        Route::post('users/{user}/assign-role', [UserController::class, 'assignRole'])
+            ->middleware('permission:edit-users');
+        Route::post('users/{user}/remove-role', [UserController::class, 'removeRole'])
+            ->middleware('permission:edit-users');
+        Route::post('users/{user}/give-permission', [UserController::class, 'givePermission'])
+            ->middleware('permission:edit-users');
+        Route::post('users/{user}/revoke-permission', [UserController::class, 'revokePermission'])
+            ->middleware('permission:edit-users');
+    });
 
     //? settings
     Route::prefix('settings')->group(function () {
