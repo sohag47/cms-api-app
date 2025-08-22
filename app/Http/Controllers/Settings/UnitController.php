@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Http\Controllers\Controller;
+use App\Http\Interfaces\RepositoryInterface;
 use App\Models\Settings\Unit;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use App\Traits\ApiResponse;
-use App\Http\Controllers\Controller;
-use App\Http\Interfaces\RepositoryInterface;
-
 
 class UnitController extends Controller
 {
     use ApiResponse;
+
     private $model;
+
     private $repositoryInterface;
 
     public function __construct(RepositoryInterface $repositoryInterface)
@@ -22,6 +23,7 @@ class UnitController extends Controller
         $this->model = Unit::class;
         $this->repositoryInterface = $repositoryInterface;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -40,11 +42,11 @@ class UnitController extends Controller
 
         // Apply search filter
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
+
         return $this->respondWithItem($query->get());
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -61,6 +63,7 @@ class UnitController extends Controller
         }
 
         $currency = $this->repositoryInterface->store($request->all(), $this->model);
+
         return $this->respondWithCreated($currency);
     }
 
@@ -71,7 +74,6 @@ class UnitController extends Controller
     {
         return $this->respondWithItem($unit);
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -88,6 +90,7 @@ class UnitController extends Controller
         }
 
         $update_category = $this->repositoryInterface->update($request->all(), $unit);
+
         return $this->respondWithUpdated($update_category);
     }
 
@@ -97,6 +100,7 @@ class UnitController extends Controller
     public function destroy(Unit $unit)
     {
         $this->repositoryInterface->delete($unit);
+
         return $this->respondWithDeleted();
     }
 
@@ -114,11 +118,11 @@ class UnitController extends Controller
         $query = $this->model::query();
 
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
         $categories = $query->select('id', 'name')
             ->get()
-            ->map(fn($category) => [
+            ->map(fn ($category) => [
                 'value' => $category->id,
                 'label' => $category->name,
             ]);

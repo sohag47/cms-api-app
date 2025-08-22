@@ -17,10 +17,10 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'guard_name' => $this->guard_name,
-            'permissions' => PermissionResource::collection($this->permissions),
-            'permissions_count' => $this->permissions->count(),
-            'users_count' => $this->users()->count(),
+            // 'guard_name' => $this->guard_name,
+            // 'permissions' => PermissionResource::collection($this->permissions),
+            // 'permissions_count' => $this->permissions->count(),
+            // 'users_count' => $this->users()->count(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

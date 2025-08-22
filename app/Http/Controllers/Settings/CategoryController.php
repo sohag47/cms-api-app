@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Settings;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-
 use App\Enums\CategoryStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\RepositoryInterface;
 use App\Models\Settings\Category;
 use App\Traits\ApiResponse;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
     use ApiResponse;
+
     private $model;
+
     private $repositoryInterface;
 
     public function __construct(RepositoryInterface $repositoryInterface)
@@ -24,6 +24,7 @@ class CategoryController extends Controller
         $this->model = Category::class;
         $this->repositoryInterface = $repositoryInterface;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -37,7 +38,7 @@ class CategoryController extends Controller
                     CategoryStatus::ACTIVE,
                     CategoryStatus::ARCHIVED,
                     CategoryStatus::INACTIVE,
-                    CategoryStatus::DISABLED
+                    CategoryStatus::DISABLED,
                 ]
             )],
         ]);
@@ -51,13 +52,13 @@ class CategoryController extends Controller
 
         // Apply search filter
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
 
         $categories = $this->filterQuery($request, $query);
+
         return $this->respondWithItem($categories);
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -74,7 +75,7 @@ class CategoryController extends Controller
                     CategoryStatus::ACTIVE,
                     CategoryStatus::ARCHIVED,
                     CategoryStatus::INACTIVE,
-                    CategoryStatus::DISABLED
+                    CategoryStatus::DISABLED,
                 ]
             )],
         ];
@@ -84,10 +85,11 @@ class CategoryController extends Controller
             return $this->respondValidationError($validator->errors());
         }
         $data = $request->all();
-        if (!isset($data['order'])) {
+        if (! isset($data['order'])) {
             $data['order'] = $this->model::max('order') + 1 ?? 1;
         }
         $category = $this->repositoryInterface->store($data, $this->model);
+
         return $this->respondWithCreated($category);
     }
 
@@ -98,7 +100,6 @@ class CategoryController extends Controller
     {
         return $this->respondWithItem($category);
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -115,7 +116,7 @@ class CategoryController extends Controller
                     CategoryStatus::ACTIVE,
                     CategoryStatus::ARCHIVED,
                     CategoryStatus::INACTIVE,
-                    CategoryStatus::DISABLED
+                    CategoryStatus::DISABLED,
                 ]
             )],
         ];
@@ -126,10 +127,11 @@ class CategoryController extends Controller
         }
 
         $data = $request->all();
-        if (!isset($data['order'])) {
+        if (! isset($data['order'])) {
             $data['order'] = $this->model::max('order') + 1 ?? 1;
         }
         $update_category = $this->repositoryInterface->update($data, $category);
+
         return $this->respondWithUpdated($update_category);
     }
 
@@ -139,6 +141,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $this->repositoryInterface->delete($category);
+
         return $this->respondWithDeleted();
     }
 
@@ -155,14 +158,14 @@ class CategoryController extends Controller
         $query = Category::query();
 
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
 
         $categories = $query->select('id', 'name')
             ->where('status', CategoryStatus::ACTIVE)
             ->orderBy('order', 'DESC')
             ->get()
-            ->map(fn($category) => [
+            ->map(fn ($category) => [
                 'value' => $category->id,
                 'label' => $category->name,
             ]);
@@ -180,7 +183,7 @@ class CategoryController extends Controller
                 CategoryStatus::ACTIVE,
                 CategoryStatus::ARCHIVED,
                 CategoryStatus::INACTIVE,
-                CategoryStatus::DISABLED
+                CategoryStatus::DISABLED,
             ])],
         ]);
 
@@ -194,7 +197,7 @@ class CategoryController extends Controller
                 'name' => $item['name'],
                 'slug' => $item['slug'],
                 'status' => $item['status'],
-                'created_at' => now()
+                'created_at' => now(),
             ];
         }
         Category::insert($data);

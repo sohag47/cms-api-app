@@ -16,6 +16,7 @@ class CheckAdmin
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
+
         return $response;
     }
 }

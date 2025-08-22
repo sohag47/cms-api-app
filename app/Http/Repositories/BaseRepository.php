@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\RepositoryInterface;
@@ -15,6 +16,7 @@ class BaseRepository implements RepositoryInterface
     public function store($data, $model)
     {
         $request = $data;
+
         // $request["created_by"] = Auth::id() ?? 1;
         // $request["updated_by"] = Auth::id() ?? 1;
         return $model::create($request);
@@ -22,9 +24,10 @@ class BaseRepository implements RepositoryInterface
 
     public function findById($id, $model, $with = [])
     {
-        if (!empty($with)) {
+        if (! empty($with)) {
             return $model::with($with)->find($id);
         }
+
         return $model::find($id);
     }
 
@@ -33,6 +36,7 @@ class BaseRepository implements RepositoryInterface
         $request = $data;
         // $request["updated_by"] = Auth::id() ?? 1;
         $model->update($request);
+
         return $model->refresh();
     }
 
@@ -43,12 +47,12 @@ class BaseRepository implements RepositoryInterface
         return $data->delete();
     }
 
-
-     // Advanced operations
+    // Advanced operations
     public function getAllWithPaginate($model)
     {
         return $model::paginate(10);
     }
+
     public function getDropdown($model, $value, $label)
     {
         return $model::get(["$value as value", "$label as label"]);
@@ -58,21 +62,26 @@ class BaseRepository implements RepositoryInterface
     {
         return $model::onlyTrashed()->get();
     }
+
     public function findTrashByID($id, $model)
     {
         return $model::onlyTrashed()->find($id);
     }
+
     public function restore($data, $model)
     {
 
         $data->restore();
+
         return $model::find($data->id);
 
     }
+
     public function insert($data, $model)
     {
         return $model::insert($data);
     }
+
     public function getAllWithRelationAndPagination($model)
     {
         return $model->paginate(10);

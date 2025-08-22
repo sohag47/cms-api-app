@@ -10,11 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-
 class ProductTypeController extends Controller
 {
     use ApiResponse;
+
     private $model;
+
     private $repositoryInterface;
 
     public function __construct(RepositoryInterface $repositoryInterface)
@@ -22,13 +23,14 @@ class ProductTypeController extends Controller
         $this->model = ProductType::class;
         $this->repositoryInterface = $repositoryInterface;
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'search'=> ['nullable', 'string', 'max:255'],            
+            'search' => ['nullable', 'string', 'max:255'],
         ]);
 
         if ($validator->fails()) {
@@ -40,11 +42,11 @@ class ProductTypeController extends Controller
 
         // Apply search filter
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
+
         return $this->respondWithItem($query->get());
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -59,8 +61,9 @@ class ProductTypeController extends Controller
         if ($validator->fails()) {
             return $this->respondValidationError($validator->errors());
         }
-        
-        $currency = $this->repositoryInterface->store($request->all(), $this->model);        
+
+        $currency = $this->repositoryInterface->store($request->all(), $this->model);
+
         return $this->respondWithCreated($currency);
     }
 
@@ -72,7 +75,6 @@ class ProductTypeController extends Controller
         return $this->respondWithItem($productType);
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -80,7 +82,7 @@ class ProductTypeController extends Controller
     {
         $rules = [
             'name' => ['required', 'string', 'max:255', Rule::unique('product_types', 'name')->ignore($productType->id)],
-            
+
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -89,6 +91,7 @@ class ProductTypeController extends Controller
         }
 
         $update_category = $this->repositoryInterface->update($request->all(), $productType);
+
         return $this->respondWithUpdated($update_category);
     }
 
@@ -98,13 +101,14 @@ class ProductTypeController extends Controller
     public function destroy(ProductType $productType)
     {
         $this->repositoryInterface->delete($productType);
+
         return $this->respondWithDeleted();
     }
 
     public function dropdown(Request $request)
     {
         $rules = [
-            'search'=> ['nullable', 'string', 'max:255'],
+            'search' => ['nullable', 'string', 'max:255'],
         ];
         $validator = Validator::make($request->all(), $rules);
 
@@ -115,11 +119,11 @@ class ProductTypeController extends Controller
         $query = $this->model::query();
 
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
         $categories = $query->select('id', 'name')
             ->get()
-            ->map(fn($category) => [
+            ->map(fn ($category) => [
                 'value' => $category->id,
                 'label' => $category->name,
             ]);

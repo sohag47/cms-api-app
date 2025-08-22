@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\StatusEnums;
 use App\Models\Address;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AddressSeeder extends Seeder
@@ -30,7 +29,7 @@ class AddressSeeder extends Seeder
                 'contact_person_id' => 1,
                 'status' => StatusEnums::ACTIVE,
                 'created_at' => now(),
-            ]
+            ],
         ];
         Address::insert($data);
     }

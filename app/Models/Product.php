@@ -10,7 +10,9 @@ class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $table = 'products';
+
     protected $guarded = [];
 
     // public function posts()

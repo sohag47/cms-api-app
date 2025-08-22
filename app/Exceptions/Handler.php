@@ -4,20 +4,19 @@ namespace App\Exceptions;
 
 use App\Enums\ApiResponseEnum;
 use App\Traits\ApiResponse;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Throwable;
-use Illuminate\Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
     use ApiResponse;
+
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -61,7 +60,6 @@ class Handler extends ExceptionHandler
         $this->renderable(function (RouteNotFoundException $e, $request) {
             return $this->respondWithNotFound($e->getTraceAsString(), $e->getMessage());
         });
-
 
         // Handle various HTTP error codes
         $this->renderable(function (HttpException $e, $request) {

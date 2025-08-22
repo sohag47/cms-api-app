@@ -15,17 +15,17 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Unauthorized. Please login first.',
             ], 401);
         }
 
-        if (!auth()->user()->hasRole($role)) {
+        if (! auth()->user()->hasRole($role)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Access denied. Required role: ' . $role,
+                'message' => 'Access denied. Required role: '.$role,
             ], 403);
         }
 

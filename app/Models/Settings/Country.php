@@ -10,8 +10,8 @@ class Country extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table = 'countries';
-    protected $guarded = [];
 
-    
+    protected $table = 'countries';
+
+    protected $guarded = [];
 }

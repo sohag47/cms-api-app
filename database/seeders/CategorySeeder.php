@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\StatusEnums;
 use App\Models\Settings\Category;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -50,7 +49,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'accessories',
                 'status' => StatusEnums::ACTIVE,
                 'created_at' => now(),
-            ]
+            ],
         ];
 
         Category::insert($data);

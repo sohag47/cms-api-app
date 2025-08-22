@@ -7,7 +7,6 @@ use App\Enums\ClientType;
 use App\Http\Interfaces\RepositoryInterface;
 use App\Models\Client;
 use App\Traits\ApiResponse;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -15,7 +14,9 @@ use Illuminate\Validation\Rule;
 class ClientController extends Controller
 {
     use ApiResponse;
+
     private $model;
+
     private $repositoryInterface;
 
     public function __construct(RepositoryInterface $repositoryInterface)
@@ -23,6 +24,7 @@ class ClientController extends Controller
         $this->model = Client::class;
         $this->repositoryInterface = $repositoryInterface;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -39,10 +41,11 @@ class ClientController extends Controller
 
         // Apply search filter
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
         $query->with('country');
         $brands = $this->filterQuery($request, $query);
+
         return $this->respondWithItem($brands);
     }
 
@@ -53,7 +56,7 @@ class ClientController extends Controller
     {
         $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255', 'unique:clients', "email"],
+            'email' => ['required', 'string', 'max:255', 'unique:clients', 'email'],
             'phone' => ['nullable', 'string', 'max:255'],
             'thumb_image' => ['nullable'],
             'address' => ['nullable'],
@@ -65,7 +68,7 @@ class ClientController extends Controller
                 [
                     ClientType::CUSTOMER,
                     ClientType::SUPPLIER,
-                    ClientType::BOTH
+                    ClientType::BOTH,
                 ]
             )],
             'client_origin' => ['required', 'string', 'max:255', Rule::enum(ClientOrigin::class)->only(
@@ -82,6 +85,7 @@ class ClientController extends Controller
         }
         // dd($request->all());
         $create_item = $this->repositoryInterface->store($request->all(), $this->model);
+
         return $this->respondWithCreated($create_item);
     }
 
@@ -91,6 +95,7 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $client->load('country');
+
         return $this->respondWithItem($client);
     }
 
@@ -101,7 +106,7 @@ class ClientController extends Controller
     {
         $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255', "email", Rule::unique('clients', 'email')->ignore($client->id)],
+            'email' => ['required', 'string', 'max:255', 'email', Rule::unique('clients', 'email')->ignore($client->id)],
             'phone' => ['nullable', 'string', 'max:255'],
             'thumb_image' => ['nullable'],
             'address' => ['nullable'],
@@ -113,7 +118,7 @@ class ClientController extends Controller
                 [
                     ClientType::CUSTOMER,
                     ClientType::SUPPLIER,
-                    ClientType::BOTH
+                    ClientType::BOTH,
                 ]
             )],
             'client_origin' => ['required', 'string', 'max:255', Rule::enum(ClientOrigin::class)->only(
@@ -130,6 +135,7 @@ class ClientController extends Controller
         }
 
         $create_item = $this->repositoryInterface->update($request->all(), $client);
+
         return $this->respondWithCreated($create_item);
     }
 
@@ -139,6 +145,7 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $this->repositoryInterface->delete($client);
+
         return $this->respondWithDeleted();
     }
 
@@ -155,12 +162,12 @@ class ClientController extends Controller
         $query = $this->model::query();
 
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
 
         $clients = $query->select('id', 'name')
             ->get()
-            ->map(fn($client) => [
+            ->map(fn ($client) => [
                 'value' => $client->id,
                 'label' => $client->name,
             ]);

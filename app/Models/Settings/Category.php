@@ -11,7 +11,9 @@ class Category extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $table = 'categories';
+
     protected $guarded = [];
 
     public static function dropdown()
@@ -21,12 +23,11 @@ class Category extends Model
             ->where('status', CategoryStatus::ACTIVE)
             ->orderBy('order', 'DESC')
             ->get()
-            ->map(fn($category) => [
+            ->map(fn ($category) => [
                 'value' => $category->id,
                 'label' => $category->name,
             ]);
     }
-
 
     // public function posts()
     // {

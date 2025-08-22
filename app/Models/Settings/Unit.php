@@ -10,7 +10,9 @@ class Unit extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $table = 'units';
+
     protected $guarded = [];
 
     /**

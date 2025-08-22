@@ -37,10 +37,10 @@ class RolePolicy
     public function update(User $user, Role $role): bool
     {
         // Super Admin role can only be updated by Super Admin
-        if ($role->name === 'Super Admin' && !$user->hasRole('Super Admin')) {
+        if ($role->name === 'Super Admin' && ! $user->hasRole('Super Admin')) {
             return false;
         }
-        
+
         return $user->hasPermissionTo('edit-roles');
     }
 
@@ -53,7 +53,7 @@ class RolePolicy
         if ($role->name === 'Super Admin') {
             return false;
         }
-        
+
         return $user->hasPermissionTo('delete-roles');
     }
 }

@@ -13,10 +13,11 @@ class LearningController extends Controller
     public function index()
     {
         $response = [
-            "success" => true,
-            "message" => "Item Found Successfully",
-            "data" => null, 
+            'success' => true,
+            'message' => 'Item Found Successfully',
+            'data' => null,
         ];
+
         return response()->json($response, Response::HTTP_OK);
     }
 
@@ -26,10 +27,11 @@ class LearningController extends Controller
     public function store(Request $request)
     {
         $response = [
-            "success" => true,
-            "message" => "Item Store Successfully",
-            "data" => $request->all(), 
+            'success' => true,
+            'message' => 'Item Store Successfully',
+            'data' => $request->all(),
         ];
+
         return response()->json($response, Response::HTTP_ACCEPTED);
     }
 
@@ -39,13 +41,14 @@ class LearningController extends Controller
     public function show(string $id)
     {
         $response = [
-            "success" => true,
-            "message" => "Item Found Successfully",
-            "data" => [
-                "id"=> $id,
-                "name" => "Sohag"
-            ], 
+            'success' => true,
+            'message' => 'Item Found Successfully',
+            'data' => [
+                'id' => $id,
+                'name' => 'Sohag',
+            ],
         ];
+
         return response()->json($response, Response::HTTP_OK);
     }
 
@@ -55,13 +58,14 @@ class LearningController extends Controller
     public function update(Request $request, string $id)
     {
         $response = [
-            "success" => true,
-            "message" => "Item Update Successfully",
-            "data" => [
-                "id"=> $id,
-                ...$request->all()
-            ], 
+            'success' => true,
+            'message' => 'Item Update Successfully',
+            'data' => [
+                'id' => $id,
+                ...$request->all(),
+            ],
         ];
+
         return response()->json($response, Response::HTTP_ACCEPTED);
     }
 
@@ -71,12 +75,13 @@ class LearningController extends Controller
     public function destroy(string $id)
     {
         $response = [
-            "success" => true,
-            "message" => "Item Delete Successfully",
-            "data" => [
-                "id"=> $id,
-            ], 
+            'success' => true,
+            'message' => 'Item Delete Successfully',
+            'data' => [
+                'id' => $id,
+            ],
         ];
+
         return response()->json($response, Response::HTTP_OK);
     }
 }

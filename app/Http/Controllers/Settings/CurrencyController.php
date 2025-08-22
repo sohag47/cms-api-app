@@ -13,7 +13,9 @@ use Illuminate\Validation\Rule;
 class CurrencyController extends Controller
 {
     use ApiResponse;
+
     private $model;
+
     private $repositoryInterface;
 
     public function __construct(RepositoryInterface $repositoryInterface)
@@ -21,16 +23,17 @@ class CurrencyController extends Controller
         $this->model = Currency::class;
         $this->repositoryInterface = $repositoryInterface;
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'search'=> ['nullable', 'string', 'max:255'],
-            'symbol'=> ['nullable', 'string', 'max:255'],
-            'code'=> ['nullable', 'string', 'max:255'],
-            
+            'search' => ['nullable', 'string', 'max:255'],
+            'symbol' => ['nullable', 'string', 'max:255'],
+            'code' => ['nullable', 'string', 'max:255'],
+
         ]);
 
         if ($validator->fails()) {
@@ -42,7 +45,7 @@ class CurrencyController extends Controller
 
         // Apply search filter
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
         if ($request->filled('code')) {
             $query->where('code', $request->query('code'));
@@ -53,7 +56,6 @@ class CurrencyController extends Controller
 
         return $this->respondWithItem($query->get());
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -71,8 +73,9 @@ class CurrencyController extends Controller
         if ($validator->fails()) {
             return $this->respondValidationError($validator->errors());
         }
-        
-        $currency = $this->repositoryInterface->store($request->all(), $this->model);        
+
+        $currency = $this->repositoryInterface->store($request->all(), $this->model);
+
         return $this->respondWithCreated($currency);
     }
 
@@ -84,7 +87,6 @@ class CurrencyController extends Controller
         return $this->respondWithItem($currency);
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -95,7 +97,7 @@ class CurrencyController extends Controller
             'symbol' => ['required', 'string', 'max:255', Rule::unique('currencies', 'symbol')->ignore($currency->id)],
             'code' => ['required', 'string', 'max:255', Rule::unique('currencies', 'code')->ignore($currency->id)],
             'usd_exchange_rate' => ['required', 'numeric', 'min:0'],
-            
+
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -104,6 +106,7 @@ class CurrencyController extends Controller
         }
 
         $update_category = $this->repositoryInterface->update($request->all(), $currency);
+
         return $this->respondWithUpdated($update_category);
     }
 
@@ -113,15 +116,16 @@ class CurrencyController extends Controller
     public function destroy(Currency $currency)
     {
         $this->repositoryInterface->delete($currency);
+
         return $this->respondWithDeleted();
     }
 
     public function dropdown(Request $request)
     {
         $rules = [
-            'search'=> ['nullable', 'string', 'max:255'],
-            'symbol'=> ['nullable', 'string', 'max:255'],
-            'code'=> ['nullable', 'string', 'max:255'],
+            'search' => ['nullable', 'string', 'max:255'],
+            'symbol' => ['nullable', 'string', 'max:255'],
+            'code' => ['nullable', 'string', 'max:255'],
         ];
         $validator = Validator::make($request->all(), $rules);
 
@@ -132,7 +136,7 @@ class CurrencyController extends Controller
         $query = $this->model::query();
 
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
         if ($request->filled('code')) {
             $query->where('code', $request->query('code'));
@@ -142,7 +146,7 @@ class CurrencyController extends Controller
         }
         $categories = $query->select('id', 'name')
             ->get()
-            ->map(fn($category) => [
+            ->map(fn ($category) => [
                 'value' => $category->id,
                 'label' => $category->name,
             ]);

@@ -10,7 +10,9 @@ class ProductType extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $table = 'product_types';
+
     protected $guarded = [];
 
     /**

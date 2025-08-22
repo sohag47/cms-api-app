@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\StatusEnums;
 use App\Models\Settings\Brand;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class BrandSeeder extends Seeder

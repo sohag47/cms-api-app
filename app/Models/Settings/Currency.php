@@ -10,9 +10,10 @@ class Currency extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table = 'currencies';
-    protected $guarded = [];
 
+    protected $table = 'currencies';
+
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.

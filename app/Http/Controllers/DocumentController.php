@@ -6,20 +6,19 @@ use App\Enums\ApiResponseEnum;
 use App\Services\FileUploadService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Validation\Rules\File;
 
 class DocumentController extends Controller
 {
     use ApiResponse;
+
     private $fileUploadService;
 
     public function __construct(FileUploadService $fileUploadService)
     {
         $this->fileUploadService = $fileUploadService;
     }
-    
 
     /**
      * Store a newly created resource in storage.
@@ -39,11 +38,11 @@ class DocumentController extends Controller
         }
 
         $data = $this->fileUploadService->uploadFile($request);
+
         return $this->respondWithItem($data);
-        
+
     }
 
-    
     /**
      * Remove the specified resource from storage.
      */
@@ -58,14 +57,14 @@ class DocumentController extends Controller
             return $this->respondValidationError($validator->errors());
         }
 
-        try{
+        try {
             $data = $this->fileUploadService->deleteFile($request->file_path);
             $message = ApiResponseEnum::DELETED->errorMessage();
+
             return $this->respondWithSuccess($data, $message);
-        }catch(\Exception $error){
+        } catch (\Exception $error) {
             return $this->respondValidationError($error->getMessage());
         }
 
-        
     }
 }

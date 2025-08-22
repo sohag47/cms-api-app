@@ -2,13 +2,6 @@
 
 namespace Database\Seeders;
 
-
-use Database\Seeders\BrandSeeder;
-use Database\Seeders\CategorySeeder;
-use Database\Seeders\CountrySeeder;
-use Database\Seeders\CurrencySeeder;
-use Database\Seeders\ProductTypeSeeder;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,7 +21,7 @@ class DatabaseSeeder extends Seeder
             UnitSeeder::class,
             ProductTypeSeeder::class,
             ClientSeeder::class,
-            
+
             ContactPersonSeeder::class,
             AddressSeeder::class,
         ]);

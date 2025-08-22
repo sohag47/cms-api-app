@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\StatusEnums;
-use App\Models\Brand;
 use App\Models\Settings\ProductType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProductTypeSeeder extends Seeder

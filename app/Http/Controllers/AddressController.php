@@ -13,7 +13,9 @@ use Illuminate\Validation\Rule;
 class AddressController extends Controller
 {
     use ApiResponse;
+
     private $model;
+
     private $repositoryInterface;
 
     public function __construct(RepositoryInterface $repositoryInterface)
@@ -21,6 +23,7 @@ class AddressController extends Controller
         $this->model = Address::class;
         $this->repositoryInterface = $repositoryInterface;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -37,9 +40,10 @@ class AddressController extends Controller
 
         // Apply search filter
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
         $brands = $this->filterQuery($request, $query);
+
         return $this->respondWithItem($brands);
     }
 
@@ -58,7 +62,7 @@ class AddressController extends Controller
                     StatusEnums::ACTIVE,
                     StatusEnums::DRAFT,
                     StatusEnums::INACTIVE,
-                    StatusEnums::DISABLED
+                    StatusEnums::DISABLED,
                 ]
             )],
 
@@ -70,6 +74,7 @@ class AddressController extends Controller
         }
         // dd($request->all());
         $create_item = $this->repositoryInterface->store($request->all(), $this->model);
+
         return $this->respondWithCreated($create_item);
     }
 
@@ -97,7 +102,7 @@ class AddressController extends Controller
                     StatusEnums::ACTIVE,
                     StatusEnums::DRAFT,
                     StatusEnums::INACTIVE,
-                    StatusEnums::DISABLED
+                    StatusEnums::DISABLED,
                 ]
             )],
 
@@ -109,6 +114,7 @@ class AddressController extends Controller
         }
 
         $create_item = $this->repositoryInterface->update($request->all(), $address);
+
         return $this->respondWithCreated($create_item);
     }
 
@@ -118,6 +124,7 @@ class AddressController extends Controller
     public function destroy(Address $address)
     {
         $this->repositoryInterface->delete($address);
+
         return $this->respondWithDeleted();
     }
 
@@ -134,12 +141,12 @@ class AddressController extends Controller
         $query = $this->model::query();
 
         if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
         }
 
         $address = $query->select('id', 'name')
             ->get()
-            ->map(fn($client) => [
+            ->map(fn ($client) => [
                 'value' => $client->id,
                 'label' => $client->name,
             ]);

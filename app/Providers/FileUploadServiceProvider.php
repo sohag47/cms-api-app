@@ -14,7 +14,7 @@ class FileUploadServiceProvider extends ServiceProvider
     {
         // Binding the FileUploadService to the service container
         $this->app->singleton(FileUploadService::class, function ($app) {
-            return new FileUploadService();
+            return new FileUploadService;
         });
     }
 

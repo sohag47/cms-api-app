@@ -10,7 +10,9 @@ class PostLike extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $table = 'post_likes';
+
     protected $guarded = [];
 
     /**

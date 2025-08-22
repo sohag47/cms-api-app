@@ -1,0 +1,147 @@
+### Test API Authentication
+
+# 1. Test API Status
+GET http://localhost/api/
+Content-Type: application/json
+
+###
+
+# 2. Login with Super Admin
+POST http://localhost/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@tenderhub.com",
+    "password": "password"
+}
+
+###
+
+# 3. Login with Manager User  
+POST http://localhost/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "manager@tenderhub.com", 
+    "password": "password"
+}
+
+###
+
+# 4. Get user profile with grouped permissions (replace TOKEN with actual token from login)
+GET http://localhost/api/auth/profile
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+###
+
+# 5. Get user permissions (now includes grouped permissions)
+GET http://localhost/api/auth/permissions
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+###
+
+# 6. Test user info with grouped permissions
+GET http://localhost/api/test/user-info
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+###
+
+# 7. Get all permissions grouped by categories (Admin only)
+GET http://localhost/api/admin/permissions-grouped
+Authorization: Bearer ADMIN_TOKEN
+Content-Type: application/json
+
+###
+
+# 8. Test admin only (requires Super Admin role)
+GET http://localhost/api/test/admin-only
+Authorization: Bearer SUPER_ADMIN_TOKEN
+Content-Type: application/json
+
+###
+
+# 9. Test permission check (requires view-users permission)
+GET http://localhost/api/test/can-view-users  
+Authorization: Bearer TOKEN_WITH_VIEW_USERS_PERMISSION
+Content-Type: application/json
+
+###
+
+# 10. Test role check
+GET http://localhost/api/test/role/Manager
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+###
+
+# 11. Test permission check
+GET http://localhost/api/test/permission/view-products
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+###
+
+# 12. Register new user
+POST http://localhost/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Test User",
+    "email": "test@example.com",
+    "password": "password123",
+    "password_confirmation": "password123",
+    "role": "User"
+}
+
+###
+
+# 13. Change password
+POST http://localhost/api/auth/change-password
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+    "current_password": "password",
+    "new_password": "newpassword123",
+    "new_password_confirmation": "newpassword123"
+}
+
+###
+
+# 14. Refresh token
+POST http://localhost/api/auth/refresh-token
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+###
+
+# 15. Logout
+POST http://localhost/api/auth/logout
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+###
+
+# 16. Admin Dashboard (requires view-admin-dashboard permission)
+GET http://localhost/api/admin/dashboard
+Authorization: Bearer ADMIN_TOKEN
+Content-Type: application/json
+
+###
+
+# 17. List all roles (requires view-roles permission)
+GET http://localhost/api/admin/roles
+Authorization: Bearer ADMIN_TOKEN
+Content-Type: application/json
+
+###
+
+# 18. List all permissions (requires view-permissions permission)
+GET http://localhost/api/admin/permissions
+Authorization: Bearer ADMIN_TOKEN
+Content-Type: application/json
+
+###

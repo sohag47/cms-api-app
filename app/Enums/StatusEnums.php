@@ -5,10 +5,10 @@ namespace App\Enums;
 enum StatusEnums: string
 {
     //? Successful responses
-    case ACTIVE  = 'active';
-    case DRAFT  = 'draft';
-    case INACTIVE  = 'inactive';
-    case DISABLED  = 'disabled';
+    case ACTIVE = 'active';
+    case DRAFT = 'draft';
+    case INACTIVE = 'inactive';
+    case DISABLED = 'disabled';
     // case SUCCESS = 'Successfully Fetched';
     // case CREATED = 'Item Created Successfully';
     // case ACCEPTED = 'Item Accepted Successfully';
@@ -45,7 +45,7 @@ enum StatusEnums: string
     //         self::VALIDATION_FAILED => 'Validation Failed!',
 
     //         self::SERVER_ERROR      => 'Internal Server Error!',
-            
+
     //         // for custom message
     //         self::UPDATED           => 'Item Updated Successfully',
     //         self::DELETED           => 'Item Deleted Successfully',
@@ -56,17 +56,17 @@ enum StatusEnums: string
     //     };
     // }
 
-
     public static function options()
     {
         $cases = self::cases();
         $options = array_map(
             fn ($status) => [
-                'label' => self::text($status->value), 
-                'value' => $status->value
+                'label' => self::text($status->value),
+                'value' => $status->value,
             ],
             $cases
         );
+
         return $options;
     }
 

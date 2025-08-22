@@ -2,7 +2,6 @@
 
 namespace App\Enums;
 
-
 enum ClientOrigin: string
 {
     case LOCAL = 'local';

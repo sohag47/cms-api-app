@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -25,31 +24,31 @@ class RolePermissionSeeder extends Seeder
             'create-users',
             'edit-users',
             'delete-users',
-            
+
             // Role management
             'view-roles',
             'create-roles',
             'edit-roles',
             'delete-roles',
-            
+
             // Permission management
             'view-permissions',
             'create-permissions',
             'edit-permissions',
             'delete-permissions',
-            
+
             // Product management
             'view-products',
             'create-products',
             'edit-products',
             'delete-products',
-            
+
             // Category management
             'view-categories',
             'create-categories',
             'edit-categories',
             'delete-categories',
-            
+
             // Order management
             'view-orders',
             'create-orders',
@@ -57,41 +56,41 @@ class RolePermissionSeeder extends Seeder
             'delete-orders',
             'approve-orders',
             'reject-orders',
-            
+
             // Post/Blog management
             'view-posts',
             'create-posts',
             'edit-posts',
             'delete-posts',
             'publish-posts',
-            
+
             // Comment management
             'view-comments',
             'create-comments',
             'edit-comments',
             'delete-comments',
             'moderate-comments',
-            
+
             // Client management
             'view-clients',
             'create-clients',
             'edit-clients',
             'delete-clients',
-            
+
             // Document management
             'view-documents',
             'create-documents',
             'edit-documents',
             'delete-documents',
-            
+
             // Profile management
             'view-profiles',
             'edit-profiles',
-            
+
             // Dashboard access
             'view-dashboard',
             'view-admin-dashboard',
-            
+
             // Settings
             'manage-settings',
         ];
@@ -102,7 +101,7 @@ class RolePermissionSeeder extends Seeder
         }
 
         // Create roles and assign permissions
-        
+
         // Super Admin - has all permissions
         $superAdmin = Role::create(['name' => 'Super Admin']);
         $superAdmin->givePermissionTo(Permission::all());

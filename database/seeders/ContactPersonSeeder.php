@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\ContactPerson;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ContactPersonSeeder extends Seeder
@@ -29,7 +28,7 @@ class ContactPersonSeeder extends Seeder
                 'designation' => 'Software engineer',
                 'client_id' => null,
                 'created_at' => now(),
-            ]
+            ],
         ];
 
         ContactPerson::insert($data);

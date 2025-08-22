@@ -10,7 +10,9 @@ class PostTag extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $table = 'post_tags';
+
     protected $guarded = [];
 
     /**

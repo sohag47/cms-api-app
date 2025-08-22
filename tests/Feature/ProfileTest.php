@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -19,10 +17,10 @@ class ProfileTest extends TestCase
         $response->assertJson([
             'success' => true,
             'data' => [
-                "id" => 1,
-                "name" => "Maymie Marks",
-                "status" => "disabled",
-            ]
+                'id' => 1,
+                'name' => 'Maymie Marks',
+                'status' => 'disabled',
+            ],
         ]);
     }
 }

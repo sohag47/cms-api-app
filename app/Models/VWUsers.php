@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class VWUsers extends Model
 {
     use HasFactory;
+
     protected $table = 'vw_users';
+
     public $timestamps = false;
 }

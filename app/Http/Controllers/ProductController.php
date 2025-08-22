@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-
 use App\Enums\CategoryStatus;
 use App\Http\Interfaces\RepositoryInterface;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
     use ApiResponse;
+
     private $model;
+
     private $repositoryInterface;
 
     public function __construct(RepositoryInterface $repositoryInterface)
@@ -24,6 +25,7 @@ class ProductController extends Controller
         $this->model = Product::class;
         $this->repositoryInterface = $repositoryInterface;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -41,11 +43,12 @@ class ProductController extends Controller
         }
 
         $categories = [];
-        if ($request->has("status")) {
-            $categories = Product::where("status", $request->query("status"))->paginate(10);
-        }else {
+        if ($request->has('status')) {
+            $categories = Product::where('status', $request->query('status'))->paginate(10);
+        } else {
             $categories = Product::paginate(10);
         }
+
         return $this->respondWithItem(new ProductCollection($categories));
     }
 
@@ -71,7 +74,8 @@ class ProductController extends Controller
             return $this->respondValidationError($validator->errors());
         }
 
-        $category = $this->repositoryInterface->store($request->all(), $this->model);        
+        $category = $this->repositoryInterface->store($request->all(), $this->model);
+
         return $this->respondWithCreated(new ProductResource($category));
     }
 
@@ -82,7 +86,6 @@ class ProductController extends Controller
     {
         return $this->respondWithItem(new ProductResource($product));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -106,6 +109,7 @@ class ProductController extends Controller
             return $this->respondValidationError($validator->errors());
         }
         $update_category = $this->repositoryInterface->update($request->all(), $product);
+
         return $this->respondWithUpdated(new ProductResource($update_category));
     }
 
@@ -115,6 +119,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $this->repositoryInterface->delete($product);
+
         return $this->respondWithDeleted();
     }
 }

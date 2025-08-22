@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\StatusEnums;
 use App\Models\Settings\Country;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CountrySeeder extends Seeder
@@ -207,7 +205,7 @@ class CountrySeeder extends Seeder
             ['name' => 'Vietnam', 'iso_code_2' => 'VN', 'iso_code_3' => 'VNM', 'phone_code' => '84'],
             ['name' => 'Yemen', 'iso_code_2' => 'YE', 'iso_code_3' => 'YEM', 'phone_code' => '967'],
             ['name' => 'Zambia', 'iso_code_2' => 'ZM', 'iso_code_3' => 'ZMB', 'phone_code' => '260'],
-            ['name' => 'Zimbabwe', 'iso_code_2' => 'ZW', 'iso_code_3' => 'ZWE', 'phone_code' => '263']
+            ['name' => 'Zimbabwe', 'iso_code_2' => 'ZW', 'iso_code_3' => 'ZWE', 'phone_code' => '263'],
         ];
 
         Country::insert($countries);

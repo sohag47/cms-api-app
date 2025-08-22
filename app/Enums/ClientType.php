@@ -2,7 +2,6 @@
 
 namespace App\Enums;
 
-
 enum ClientType: string
 {
     case CUSTOMER = 'customer';

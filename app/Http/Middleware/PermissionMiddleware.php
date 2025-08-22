@@ -15,17 +15,17 @@ class PermissionMiddleware
      */
     public function handle(Request $request, Closure $next, string $permission): Response
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Unauthorized. Please login first.',
             ], 401);
         }
 
-        if (!auth()->user()->hasPermissionTo($permission)) {
+        if (! auth()->user()->hasPermissionTo($permission)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Access denied. Required permission: ' . $permission,
+                'message' => 'Access denied. Required permission: '.$permission,
             ], 403);
         }
 

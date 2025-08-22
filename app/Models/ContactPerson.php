@@ -10,7 +10,9 @@ class ContactPerson extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $table = 'contact_person';
+
     protected $guarded = [];
 
     /**

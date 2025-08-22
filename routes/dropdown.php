@@ -2,13 +2,12 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\Settings\CountryController;
 use App\Http\Controllers\Settings\CategoryController;
+use App\Http\Controllers\Settings\CountryController;
 use App\Http\Controllers\Settings\CurrencyController;
 use App\Http\Controllers\Settings\ProductTypeController;
 use App\Http\Controllers\Settings\UnitController;
 use Illuminate\Support\Facades\Route;
-
 
 // use App\Http\Controllers\Admin\CategoryController;
 // use App\Http\Controllers\Admin\FrameworkController;

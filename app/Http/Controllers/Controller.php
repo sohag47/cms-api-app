@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StatusEnums;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Validation\Rule;
 
 class Controller extends BaseController
 {
@@ -49,6 +47,7 @@ class Controller extends BaseController
 
         if ($request->filled('paginate') && $request->query('paginate') == 'no') {
             $items = $query->get();
+
             return $this->respondWithItem($items);
         }
         // Paginate results

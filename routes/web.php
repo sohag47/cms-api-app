@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Middleware\VerifyCsrfToken;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,9 +22,10 @@ Route::get('/', function () {
 Route::post('webhook/receive', function () {
     $response = [
         'success' => true,
-        'message' => "Page found",
+        'message' => 'Page found',
         'data' => null,
         'errors' => null,
     ];
+
     return response()->json($response, Response::HTTP_OK);
 })->withoutMiddleware([VerifyCsrfToken::class]);

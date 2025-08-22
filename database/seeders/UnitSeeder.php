@@ -2,11 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\StatusEnums;
-use App\Models\Brand;
-use App\Models\ProductTypes;
 use App\Models\Settings\Unit;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UnitSeeder extends Seeder
@@ -44,9 +40,8 @@ class UnitSeeder extends Seeder
             [
                 'name' => 'CBM', // Cubic Meter
                 'created_at' => now(),
-            ]
+            ],
         ];
-
 
         Unit::insert($data);
     }

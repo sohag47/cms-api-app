@@ -40,17 +40,20 @@ class CreateAdminUser extends Command
             if ($this->confirm('User with this email already exists. Do you want to assign Super Admin role?')) {
                 $existingUser->assignRole('Super Admin');
                 $this->info("Super Admin role assigned to existing user: {$email}");
+
                 return;
             } else {
                 $this->error('Operation cancelled.');
+
                 return;
             }
         }
 
         // Check if Super Admin role exists
         $superAdminRole = Role::where('name', 'Super Admin')->first();
-        if (!$superAdminRole) {
+        if (! $superAdminRole) {
             $this->error('Super Admin role does not exist. Please run the RolePermissionSeeder first.');
+
             return;
         }
 
@@ -64,7 +67,7 @@ class CreateAdminUser extends Command
 
         $user->assignRole('Super Admin');
 
-        $this->info("Admin user created successfully!");
+        $this->info('Admin user created successfully!');
         $this->table(
             ['Field', 'Value'],
             [

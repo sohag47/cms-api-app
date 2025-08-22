@@ -33,30 +33,29 @@ enum ApiResponseEnum: string
 
     public function errorMessage(): string
     {
-        return match($this){
+        return match ($this) {
             // self::SUCCESS           => 'Successfully Fetched',
             // self::ACCEPTED          => 'Item Accepted Successfully',
 
             // self::BAD_REQUEST       => 'Invalid request parameters',
-            self::UNAUTHORIZED      => 'You are not authorized to access this resource. Please authenticate.',
-            self::FORBIDDEN         => 'You do not have permission to access this resource.',
-            self::NOT_FOUND         => 'The requested resource could not be found.',
+            self::UNAUTHORIZED => 'You are not authorized to access this resource. Please authenticate.',
+            self::FORBIDDEN => 'You do not have permission to access this resource.',
+            self::NOT_FOUND => 'The requested resource could not be found.',
             // self::NOT_ACCEPTABLE    => 'Not Acceptable',
             self::VALIDATION_ERROR => 'The given data was invalid.',
 
-            self::SERVER_ERROR      => 'An unexpected error occurred on the server. Please try again later.',
+            self::SERVER_ERROR => 'An unexpected error occurred on the server. Please try again later.',
             self::METHOD_NOT_ALLOWED => 'The HTTP method used is not allowed for this route.',
             // for custom message
-            self::CREATED           => 'Item Created Successfully',
-            self::UPDATED           => 'Item Updated Successfully',
-            self::DELETED           => 'Item Deleted Successfully',
+            self::CREATED => 'Item Created Successfully',
+            self::UPDATED => 'Item Updated Successfully',
+            self::DELETED => 'Item Deleted Successfully',
             // self::SELECTED          => 'Selected',
             // self::CONFIRMED         => 'Confirmed',
             // self::REJECTED          => 'Rejected',
             // self::APPLIED           => 'Applied'
         };
     }
-
 
     // public static function options()
     // {

@@ -7,8 +7,8 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         try {
             $users = User::with(['roles', 'permissions'])->paginate(10);
-            
+
             return $this->success(
                 UserCollection::make($users),
                 'Users retrieved successfully'
@@ -45,7 +45,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'roles' => 'array',
-            'roles.*' => 'exists:roles,id'
+            'roles.*' => 'exists:roles,id',
         ]);
 
         try {
@@ -83,7 +83,7 @@ class UserController extends Controller
     {
         try {
             $user->load(['roles', 'permissions']);
-            
+
             return $this->success(
                 UserResource::make($user),
                 'User retrieved successfully'
@@ -104,10 +104,10 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'sometimes|string|min:8',
             'roles' => 'array',
-            'roles.*' => 'exists:roles,id'
+            'roles.*' => 'exists:roles,id',
         ]);
 
         try {
@@ -169,13 +169,13 @@ class UserController extends Controller
     public function assignRole(Request $request, User $user)
     {
         $request->validate([
-            'role_id' => 'required|exists:roles,id'
+            'role_id' => 'required|exists:roles,id',
         ]);
 
         try {
             $role = Role::findById($request->role_id);
             $user->assignRole($role);
-            
+
             $user->load(['roles', 'permissions']);
 
             return $this->success(
@@ -197,13 +197,13 @@ class UserController extends Controller
     public function removeRole(Request $request, User $user)
     {
         $request->validate([
-            'role_id' => 'required|exists:roles,id'
+            'role_id' => 'required|exists:roles,id',
         ]);
 
         try {
             $role = Role::findById($request->role_id);
             $user->removeRole($role);
-            
+
             $user->load(['roles', 'permissions']);
 
             return $this->success(
@@ -225,13 +225,13 @@ class UserController extends Controller
     public function givePermission(Request $request, User $user)
     {
         $request->validate([
-            'permission_id' => 'required|exists:permissions,id'
+            'permission_id' => 'required|exists:permissions,id',
         ]);
 
         try {
             $permission = Permission::findById($request->permission_id);
             $user->givePermissionTo($permission);
-            
+
             $user->load(['roles', 'permissions']);
 
             return $this->success(
@@ -253,13 +253,13 @@ class UserController extends Controller
     public function revokePermission(Request $request, User $user)
     {
         $request->validate([
-            'permission_id' => 'required|exists:permissions,id'
+            'permission_id' => 'required|exists:permissions,id',
         ]);
 
         try {
             $permission = Permission::findById($request->permission_id);
             $user->revokePermissionTo($permission);
-            
+
             $user->load(['roles', 'permissions']);
 
             return $this->success(

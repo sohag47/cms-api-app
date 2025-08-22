@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\RoleResource;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -20,7 +20,7 @@ class RoleController extends Controller
     {
         try {
             $roles = Role::with('permissions')->get();
-            
+
             return $this->success(
                 RoleResource::collection($roles),
                 'Roles retrieved successfully'
@@ -42,17 +42,17 @@ class RoleController extends Controller
         $request->validate([
             'name' => 'required|string|max:255|unique:roles,name',
             'permissions' => 'array',
-            'permissions.*' => 'exists:permissions,id'
+            'permissions.*' => 'exists:permissions,id',
         ]);
 
         try {
             $role = Role::create(['name' => $request->name]);
-            
+
             if ($request->has('permissions')) {
                 $permissions = Permission::whereIn('id', $request->permissions)->get();
                 $role->givePermissionTo($permissions);
             }
-            
+
             $role->load('permissions');
 
             return $this->success(
@@ -76,7 +76,7 @@ class RoleController extends Controller
     {
         try {
             $role->load('permissions');
-            
+
             return $this->success(
                 new RoleResource($role),
                 'Role retrieved successfully'
@@ -98,17 +98,17 @@ class RoleController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('roles')->ignore($role->id)],
             'permissions' => 'array',
-            'permissions.*' => 'exists:permissions,id'
+            'permissions.*' => 'exists:permissions,id',
         ]);
 
         try {
             $role->update(['name' => $request->name]);
-            
+
             if ($request->has('permissions')) {
                 $permissions = Permission::whereIn('id', $request->permissions)->get();
                 $role->syncPermissions($permissions);
             }
-            
+
             $role->load('permissions');
 
             return $this->success(
@@ -134,7 +134,7 @@ class RoleController extends Controller
             $usersCount = $role->users()->count();
             if ($usersCount > 0) {
                 return $this->error(
-                    'Cannot delete role. It is assigned to ' . $usersCount . ' user(s).',
+                    'Cannot delete role. It is assigned to '.$usersCount.' user(s).',
                     422
                 );
             }
@@ -160,13 +160,13 @@ class RoleController extends Controller
     public function assignPermission(Request $request, Role $role)
     {
         $request->validate([
-            'permission_id' => 'required|exists:permissions,id'
+            'permission_id' => 'required|exists:permissions,id',
         ]);
 
         try {
             $permission = Permission::findById($request->permission_id);
             $role->givePermissionTo($permission);
-            
+
             $role->load('permissions');
 
             return $this->success(
@@ -188,13 +188,13 @@ class RoleController extends Controller
     public function revokePermission(Request $request, Role $role)
     {
         $request->validate([
-            'permission_id' => 'required|exists:permissions,id'
+            'permission_id' => 'required|exists:permissions,id',
         ]);
 
         try {
             $permission = Permission::findById($request->permission_id);
             $role->revokePermissionTo($permission);
-            
+
             $role->load('permissions');
 
             return $this->success(
